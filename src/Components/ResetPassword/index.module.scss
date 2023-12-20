@@ -1,0 +1,35 @@
+.root {
+    margin: 50px auto 0;
+    max-width: 450px;
+    width: 100%;
+
+    .input {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .alert {
+        margin-bottom: 16px;
+    }
+
+    .vertical {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .submit {
+        align-self: flex-end;
+    }
+}
+
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width : 600px) {
+    .root {
+    }
+}

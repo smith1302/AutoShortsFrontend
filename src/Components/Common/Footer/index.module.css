@@ -1,0 +1,87 @@
+.root {
+    background: linear-gradient(-45deg, var(--gradient1-start), var(--gradient1-end));
+}
+
+.content {
+    max-width: var(--content-size);
+    width: 100%;
+    padding: 20px;
+    color: white;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.companyInfo .companyName {
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.column {
+    max-width: 300px;
+    margin: 40px 40px 40px 0;
+}
+
+.column:last-of-type {
+    margin-right: 0;
+}
+
+.column .title {
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.brand {
+    opacity: 1;
+    font-size: 1.4em;
+    display: flex;
+    align-items: center;
+}
+
+.brand img {
+    margin-right: 10px;
+    height: 28px;
+}
+
+.category {
+    opacity: 0.8;
+    font-size: 1em;
+}
+
+.column .body {
+}
+
+.column .body a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.column .body a:hover {
+    text-decoration: underline;
+}
+
+
+.column .body a > svg {
+    margin-right: 5px;
+}
+
+@media (max-width : 500px) {
+    .column {
+        margin: 15px 15px 5px 0;
+    }
+    .column .title {
+        margin-bottom: 15px;
+    }
+    .content {
+        flex-direction: column;
+    }
+    .companyInfo .companyName {
+        font-size: 1.2em;
+    }
+    .brand {
+        font-size: 1.3em;
+    }
+}

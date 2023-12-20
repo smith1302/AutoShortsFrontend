@@ -1,0 +1,85 @@
+@use "/styles/mixins";
+
+.squigle {
+    height: 95px;
+    display: block;
+    margin: auto;
+    opacity: 0.9;
+}
+
+section.stepSection {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+section.whyus {
+    margin-top: 90px;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-text-color);
+    img.awards {
+        margin: 0 auto 10px auto;
+        max-width: 250px;
+        display: block;
+    }
+    .well {
+        padding: 40px 50px;
+        border: 1px solid #d8daec;
+        border-radius: 8px;
+        margin-top: 35px;
+        ul {
+            padding: 0;
+            margin: 0;
+            font-size: 1.1em;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        li:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.pill {
+    padding: 3px 10px;
+    border: 2px solid var(--gradient1-end);
+    border-radius: 900px;
+    font-size: 0.8em;
+    font-weight: bold;
+    @include mixins.gradient-text;
+}
+
+.step {
+    flex: 1 1;
+    margin: 40px 15px 0 15px;
+    font-size: 1.1em;
+    color: var(--primary-text-color);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+    border: 1px solid #d8daec;
+    border-radius: 8px;
+
+    .contentTitle {
+        margin-bottom: 0;
+    }
+    p {
+        margin-top: 5px;
+        text-align: center;
+    }
+}
+
+@media (max-width : 500px) {
+    section.stepSection {
+        margin-top: 30px;
+        flex-direction: column;
+    }
+    .step {
+        margin: 20px 0 0 0;
+        padding: 20px;
+    }
+}

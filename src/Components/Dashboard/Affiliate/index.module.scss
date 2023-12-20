@@ -1,0 +1,22 @@
+.root {
+    padding: 100px 0px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.preWrap {
+    white-space: pre-wrap;
+}
+
+.message {
+    margin-bottom: 50px;
+}
+
+@media (max-width : 600px) {
+    .root {
+        padding: 30px 0 80px;
+    }
+}

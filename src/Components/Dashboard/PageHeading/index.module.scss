@@ -1,0 +1,50 @@
+@use "/styles/mixins";
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ffffff1a;
+
+    h3 {
+        text-transform: uppercase;
+        margin: 0;
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+
+    &.light h1 {
+        @include mixins.gradient-text-reset;
+        border-bottom-color: white;
+        color: white;
+    }
+
+    &.light {
+        @include mixins.gradient-text-reset;
+        border-bottom-color: white;
+        color: white;
+    }
+
+    h1 {
+        text-align: left;
+        @include mixins.gradient-text;
+        text-transform: uppercase;
+        margin: 0;
+        font-size: 1.3em;
+        display: inline-block;
+        border-bottom: 2px solid var(--gradient1-end);
+        padding-bottom: 10px;
+    }
+}
+
+@media (max-width : 600px) {
+    .row {
+        margin-bottom: 15px;
+        h1, h3 {
+            font-size: 1rem;
+        }
+    }
+}

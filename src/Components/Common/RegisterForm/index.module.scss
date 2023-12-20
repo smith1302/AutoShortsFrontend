@@ -1,0 +1,40 @@
+.title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: var(--primary-text-color)
+}
+
+.logo {
+    height: 25px;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+button.btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.googleBtn {
+    width: 100%;
+    justify-content: center;
+    color: var(--primary-text-color) !important;
+    display: flex;
+    &.disable {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+}
+
+.or {
+    text-align: center;
+    margin: 8px 0;
+    color: var(--primary-text-color);
+    opacity: 0.5;
+}
+
+.alert {
+    margin-bottom: 16px;
+}

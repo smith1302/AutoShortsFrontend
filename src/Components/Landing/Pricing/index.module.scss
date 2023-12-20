@@ -1,0 +1,74 @@
+@use "/styles/mixins";
+
+.root {
+    background-color: white;
+    margin-top: -9px;
+    display: flex;
+}
+
+.content {
+    margin: 30px auto 200px;
+    z-index: 999;
+    position: relative;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    font-size: 2.5em;
+    font-weight: 800;
+    text-align: center;
+    @include mixins.gradient-text;
+}
+
+.subtitle {
+    font-size: 1.3em;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0.9;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    background: var(--background-gradient);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.card {
+    margin: 0;
+    padding: 5px;
+}
+
+.switch {
+    margin-top: 20px;
+}
+
+@media (max-width : 1200px) {
+    .root {
+        .cards {
+            flex-wrap: wrap;
+        }
+        div.card {
+            flex-basis: 50%;
+        }
+    }
+}
+
+@media (max-width : 600px) {
+    .content {
+        margin-bottom: 75px;
+    }
+    .cards {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+    .card {
+        padding: 0px 0px 10px 0px;
+    }
+    .card:last-of-type {
+        padding-bottom: 0px;
+    }
+}

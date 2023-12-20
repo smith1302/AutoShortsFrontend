@@ -1,0 +1,56 @@
+.grid {
+    display: flex;
+    flex-direction: row;
+
+    .paper {
+        padding: 30px;
+        color: var(--primary-text-color);
+        &.left {
+            flex: 1;
+        }
+        &.right {
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+            .header {
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+            a {
+                text-decoration: none;
+                color: var(--light-anchor-color);
+                display: flex;
+                align-items: center;
+                margin-bottom: 5px;
+                &:hover {
+                    text-decoration: underline;
+                }
+                svg {
+                    margin-right: 5px;
+                    font-size: 1.1em;
+                }
+            }
+        }
+    }
+}
+
+.status {
+    text-transform: capitalize;
+}
+
+button.button {
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+@media (max-width : 600px) {
+    .grid {
+        flex-direction: column;
+        .paper.right {
+            margin: 20px 0 0 0;
+        }
+        .paper {
+            font-size: 1.05rem;
+        }
+    }
+}

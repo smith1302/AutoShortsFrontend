@@ -1,0 +1,24 @@
+#closeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #444;
+}
+
+.dialogContent {
+    padding: 0 25px 25px 25px;
+    margin-top: 8px;
+    max-width: 350px;
+}
+
+.title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: var(--primary-text-color)
+}
+
+.alert {
+    margin: 16px 0;
+}

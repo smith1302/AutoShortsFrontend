@@ -1,0 +1,36 @@
+.root {
+    margin: 50px auto 0;
+    width: 100%;
+}
+
+.contactFormBox {
+    max-width: 450px;
+    margin: 0px auto;
+}
+
+.submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.characterLimit {
+    font-size: 0.9em;
+    color: var(--primary-text-color);
+}
+
+@media (max-width : 600px) {
+    button.submitButton {
+        margin-top: 15px;
+        width: 100%;
+    }
+    .submit {
+        justify-content: center;
+    }
+
+    .root {
+        margin-top: -40px;
+    }
+}

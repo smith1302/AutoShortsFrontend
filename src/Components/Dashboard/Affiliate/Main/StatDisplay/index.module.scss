@@ -1,0 +1,50 @@
+.section {
+    width: 100%;
+}
+
+.paper {
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+}
+
+.statItem {
+    color: var(--primary-text-color);
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    &:not(:last-of-type) {
+        border-right: 1px solid rgba(110, 144, 187, 0.3);
+    }
+    .num {
+        font-size: 1.4em;
+    }
+    .label {
+        margin-top: 5px;
+        font-size: 0.8em;
+        font-weight: 600;
+        opacity: 0.6;
+        text-transform: uppercase;
+    }
+}
+
+@media (max-width : 1500px) {
+    .paper {
+        padding: 10px;
+    }
+}
+
+@media (max-width : 600px) {
+    .paper {
+        flex-direction: column;
+    }
+    .statItem {
+        &:not(:last-of-type) {
+            border-right: none;
+            border-bottom: 1px solid rgba(110, 144, 187, 0.3);
+        }
+    }
+}

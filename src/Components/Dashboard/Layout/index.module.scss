@@ -1,0 +1,33 @@
+.root {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--black-text-color);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.grid {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex: 1;
+}
+
+.left {
+    border-right: 1px solid #eaeaea;
+}
+
+.right {
+    flex: 1;
+    background: var(--gray-bg);
+    overflow-x: auto;
+    .loadingContainer {
+        padding: 50px 0px;
+        min-height: 400px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

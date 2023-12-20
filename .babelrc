@@ -1,0 +1,18 @@
+{
+    "presets": [
+        "next/babel"
+    ],
+    "plugins": [
+        [
+            // Allows us to import using absolute paths `~/components/etc` instead of `../../../components/etc`
+            "babel-plugin-root-import"
+        ]
+    ],
+    "env": { // For React Native
+        "production": {
+            "plugins": [
+                "babel-plugin-root-import"
+            ]
+        }
+    }
+}

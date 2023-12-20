@@ -1,0 +1,17 @@
+.root {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 500px;
+    background: #1d173e;
+    transform: skewY(-4deg);
+    transform-origin: 0;
+}
+
+@media (max-width: 768px) {
+    .root {
+        height: 300px;
+        transform: skewY(-6deg);
+    }
+}

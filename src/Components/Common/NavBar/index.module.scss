@@ -1,0 +1,130 @@
+@use "/styles/mixins";
+
+.root {
+    width: 100%;
+    min-height: 60px;
+    margin: 0 auto;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    &.dark {
+        border-bottom: 1px solid #eaeaea;
+    }
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.3em;
+    margin-left: 15px;
+}
+
+.logo a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: var(--primary-text-color);
+    font-weight: bold;
+}
+
+.logo img {
+    margin-right: 10px;
+    height: 25px;
+}
+
+.dark .logo img {
+    /* Converts black image to #222 fill. Using https://codepen.io/sosuke/pen/Pjoqqp */
+    // filter: invert(12%) sepia(0%) saturate(1%) hue-rotate(151deg) brightness(97%) contrast(55%);
+    // filter: invert(19%) sepia(8%) saturate(5016%) hue-rotate(203deg) brightness(91%) contrast(100%);
+    // opacity: 0.9;
+}
+
+.light .logo a {
+    color: white;
+}
+
+.dark .logo a {
+    color: #3d3777;
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+}
+
+.menu > a {
+    padding: 6px 12px;
+    margin: 10px 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.1s ease-in-out, transform 0.15s;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.menu > a:hover {
+    /* transform: scale(0.98); */
+    opacity: 0.8;
+}
+
+.menu > a:active {
+    transform: scale(0.97);
+    /* opacity: 0.8; */
+}
+
+
+.light .menu > a {
+    color: rgba(255, 255, 255, 0.906);
+}
+
+.dark .menu > a {
+    @include mixins.gradient-text;
+}
+
+.menu > a.pill {
+    border-radius: 8px;
+    background: var(--background-gradient);
+    color: white;
+    -webkit-text-fill-color: inherit;
+    -webkit-background-clip: inherit;
+}
+
+.light .menu > a.pill {
+    border-radius: 8px;
+    background: none;
+    border-radius: 5px;
+    border: 1px solid white;
+    color: white;
+}
+
+.menu > a > svg, .menuLink svg {
+    margin-right: 7px;
+    font-size: 1.2em;
+}
+
+/* Mobile Specific */
+
+.menuLink {
+    text-decoration: none;
+    color: var(--black-text-color);
+}
+
+.light .mobileMenuBtn {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.358);
+}
+
+@media (max-width: 700px) {
+    .logo {
+        font-size: 1.5rem;
+        margin-left: 0;
+    }
+    .menu > a > svg, .menuLink svg, .menuLink > li {
+        font-size: 1.3rem;
+    }
+}

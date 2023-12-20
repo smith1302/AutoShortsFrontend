@@ -1,0 +1,103 @@
+@use "/styles/mixins";
+
+.root {
+  background-color: white;
+  margin: 0px 0 200px 0;
+}
+
+.arrow {
+  height: 100px;
+  margin: auto;
+  display: block;
+}
+
+.content {
+  margin: 30px auto;
+  z-index: 999;
+  position: relative;
+}
+
+.title {
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  font-size: 2.5em;
+  font-weight: 800;
+  text-align: center;
+  @include mixins.gradient-text;
+}
+
+.subtitle {
+  font-size: 1.3em;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.9;
+  text-transform: uppercase;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 100px 0 75px 0;
+}
+
+.left {
+  padding-right: 80px;
+  display: flex;
+  flex: 1 1;
+  flex-direction: column;
+  max-width: 50%;
+}
+
+.imgContainer {
+  padding: 40px;
+  background: linear-gradient(-45deg, var(--gradient1-start), var(--gradient1-end));
+  border-radius: 15px;
+  position: relative;
+}
+
+img.diamonds {
+  position: absolute;
+  width: 90px;
+  top: -20px;
+  right: -20px;
+}
+
+img.textblock {
+  width: 100%;
+  opacity: 0.9;
+}
+
+.left img {
+    -webkit-filter: drop-shadow(5px 5px 5px #0000002e);
+    filter: drop-shadow(5px 5px 5px #0000002e);
+}
+
+.right {
+    flex: 1 1;
+    margin-left: 10px;
+    font-size: 1.1em;
+    color: var(--primary-text-color);
+}
+
+@media (max-width : 500px) {
+    .root {
+        margin-bottom: 0;
+    }
+    .grid {
+        flex-direction: column;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+    .left {
+        max-width: 100%;
+        padding-right: 0;
+    }
+    .right {
+        margin: 50px 10px 0;
+    }
+    .imgContainer {
+        margin: 0 10px;
+    }
+}

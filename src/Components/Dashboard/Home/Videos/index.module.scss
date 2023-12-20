@@ -1,0 +1,53 @@
+.cardGrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    position: relative;
+    margin: 30px -15px 0; // -15px to offset cardItem padding
+}
+
+.cardGrid::after {
+    content: "";
+    flex: auto;
+}
+
+.cardGridItem {
+    padding: 0 15px 30px;
+    width: 33.3%;
+    iframe {
+        background: var(--background-gradient);
+        padding: 10px;
+        border-radius: 7px;
+        width: 100%;
+        height: 100%;
+        box-shadow: 1px 1px 6px #0000005e;
+        margin-bottom: 50px;
+    }
+}
+
+button.try {
+    margin-top: 30px;
+    width: 100%;
+}
+
+@media (max-width : 1100px) {
+    .cardGridItem {
+        width: 50%;
+    }
+}
+
+@media (max-width : 600px) {
+    .cardGrid {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .cardGridItem {
+        width: 100%;
+        padding-right: 0;
+        padding-left: 0;
+        iframe {
+            margin-bottom: 15px;
+        }
+    }
+}

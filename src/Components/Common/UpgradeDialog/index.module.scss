@@ -1,0 +1,12 @@
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .badge {
+        margin-right: 8px;
+        color: var(--single-brand-color);
+    }
+    .closeBtn {
+        color: #aaa;
+    }
+}

@@ -1,0 +1,39 @@
+.root {
+    background: #f8f8f8;
+    padding: 20px;
+}
+
+.paper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    &> div {
+        margin: 0 15px;
+        flex: 1 1 auto;
+    }
+}
+
+.line {
+    height: 35px;
+    width: 1px;
+    background: #dadada;
+    margin: 25px auto 15px auto;
+}
+
+.dataCol {
+    word-break: break-word;
+}
+
+.preWrap {
+    white-space: pre-wrap;
+}
+
+.created {
+    font-size: 0.9em;
+    opacity: 0.6;
+}
+
+.copy {
+    padding: 15px 0;
+}

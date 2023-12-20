@@ -1,0 +1,35 @@
+.root {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.label {
+    color: var(--primary-text-color);
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .pill {
+        font-size: 0.8em;
+        padding: 3px 10px;
+        border-radius: 900px;
+        color: white;
+        background: var(--background-gradient);
+        margin: 0 9px;
+        opacity: 0;
+        transition: 0.3s opacity;
+        &.show {
+            opacity: 1;
+        }
+    }
+}
+
+@media (max-width : 600px) {
+    .pill {
+        display: none;
+    }
+}

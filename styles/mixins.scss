@@ -1,0 +1,14 @@
+@mixin gradient-text {
+    background-color: var(--single-brand-color);
+    background: linear-gradient(324deg, var(--gradient1-start), var(--gradient1-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+}
+
+@mixin gradient-text-reset {
+    background: none;
+    -webkit-background-clip: inherit;
+    -webkit-text-fill-color: inherit;
+}

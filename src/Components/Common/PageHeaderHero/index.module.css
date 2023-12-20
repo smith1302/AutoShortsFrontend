@@ -1,0 +1,22 @@
+.root {
+    background: var(--background-gradient);
+    padding: 80px 20px;
+    color: rgba(255, 255, 255, 0.98);
+    box-shadow: inset 0px 10px 19px #0000001c, inset 0px -10px 19px #0000001c;
+    width: 100vw;
+    position: relative;
+    margin-left: -50vw;
+    left: 50%;
+}
+
+.root h1 {
+    text-align: center;
+    margin: 0;
+}
+
+.root h3 {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 0;
+    opacity: 0.8;
+}

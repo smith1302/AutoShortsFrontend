@@ -1,0 +1,116 @@
+.root {
+    flex: 1 1 0px;
+    margin: 0 5px;
+    transition: transform 0.1s ease-in-out;
+}
+
+.root:hover {
+    transform: scale(1.01);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: var(--black-text-color);
+    overflow: hidden;
+    padding: 30px;
+    text-align: center;
+    height: 100%;
+}
+
+.popular {
+    background: linear-gradient(-45deg, var(--gradient1-start), var(--gradient1-end));
+    border-radius: 500px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.8em;
+    padding: 5px 20px;
+    display: inline-block;
+    align-self: center;
+    margin-bottom: 20px;
+}
+
+.planName {
+    /* background: linear-gradient(-45deg, var(--gradient1-start), var(--gradient1-end)); */
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.6em;
+    margin-bottom: 0px;
+    color: var(--primary-text-color);
+    opacity: 0.8;
+}
+
+.pricing {
+    margin-bottom: 20px;
+}
+
+.price {
+    font-weight: 700;
+    font-size: 2.9em;
+    color: var(--primary-text-color);
+}
+
+.interval {
+    font-size: 1em;
+    margin-left: 5px;
+    color: var(--primary-text-color);
+    opacity: 0.7;
+}
+
+.features {
+    flex: 1;
+    color: var(--primary-text-color);
+    font-size: 0.9em;
+}
+
+.features > div {
+    display: flex;
+    text-align: left;
+    text-transform: capitalize;
+}
+
+.features .check {
+    margin-right: 5px;
+}
+
+.features .unlimitedFont {
+    color: var(--single-brand-color);
+    font-weight: bold;
+}
+
+button.btn {
+    margin-top: 20px;
+    transition: transform 0.2s, background 0.2s;
+}
+
+button.btn:hover {
+    transform: scale(1.03);
+}
+
+button.btn .progress {
+    color: #5f5fff;
+}
+
+.strike {
+    text-decoration: line-through;
+    opacity: 0.4;
+}
+
+@media (max-width : 600px) {
+    .planName {
+        font-size: 1rem;
+    }
+    .price {
+        font-size: 3rem;
+    }
+    .interval, .features > div {
+        font-size: 1rem;
+    }
+    button.btn { 
+        margin-top: 15px;
+    }
+    .content {
+        padding: 20px;
+    }
+}

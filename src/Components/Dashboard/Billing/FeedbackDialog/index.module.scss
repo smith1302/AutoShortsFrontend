@@ -1,0 +1,20 @@
+.note {
+    // color: var(--primary-text-color);
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.radioGroup {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.title {
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary-text-color);
+}
+
+.error {
+    margin-top: 10px;
+}

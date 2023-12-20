@@ -1,0 +1,15 @@
+.testimonials {
+    max-width: 550px;
+    width: 100%;
+    margin: 55px auto 0;
+    display: block;
+    background: var(--background-gradient);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+@media (max-width : 600px) {
+    .testimonials {
+        margin-top: 30px;
+    }
+}

@@ -1,0 +1,46 @@
+@use "/styles/mixins";
+
+.headerContainer {
+    a {
+        color: var(--light-anchor-color);
+        text-decoration: none;
+    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contentContainer {
+    flex: 1 1;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin: 110px auto;
+}
+
+.header {
+    text-align: center;
+    margin: 0;
+    @include mixins.gradient-text;
+}
+
+.subheader {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 0;
+    opacity: 0.8;
+    color: var(--primary-text-color);
+}
+
+@media (max-width : 800px) {
+    .headerContainer {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width : 500px) {
+    .contentContainer {
+        margin-top: 20px;
+    }
+}

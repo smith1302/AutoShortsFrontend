@@ -1,0 +1,18 @@
+.body {
+    margin: 80px auto 0;
+    a {
+        color: var(--light-anchor-color);
+    }
+}
+
+.qa {
+    color: var(--primary-text-color);
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+}
+
+.qa .question {
+    margin: 0;
+}

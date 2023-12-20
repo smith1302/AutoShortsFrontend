@@ -1,0 +1,25 @@
+.root {
+    display: flex;
+    flex-direction: column;
+
+    .arrow {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid var(--single-brand-color);
+        opacity: 0.3;
+
+        &.selected {
+            opacity: 1;
+        }
+    }
+    
+    .up {
+    }
+    
+    .down {
+        transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+    }
+}

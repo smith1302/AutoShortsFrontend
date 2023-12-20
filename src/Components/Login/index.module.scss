@@ -1,0 +1,71 @@
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 350px;
+    width: 100%;
+    margin: 15px;
+}
+
+.card .title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: var(--primary-text-color)
+}
+
+.card .logo {
+    height: 25px;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+button.btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.googleBtn {
+    width: 100%;
+    justify-content: center;
+    color: var(--primary-text-color) !important;
+    display: flex;
+    &.disable {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+}
+
+.or {
+    text-align: center;
+    margin: 8px 0;
+    color: var(--primary-text-color);
+    opacity: 0.5;
+}
+
+.forgotPassword {
+    text-align: right;
+}
+
+.forgotPassword a {
+    text-decoration: none;
+    color: black;
+    font-size: 0.8em;
+    opacity: 0.6;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.footnote {
+    color: white;
+    opacity: 0.6;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.footnote a {
+    color: white;
+}

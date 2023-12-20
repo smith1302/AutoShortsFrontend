@@ -1,0 +1,46 @@
+.cards {
+    display: flex;
+    justify-content: center;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.sectionMargin {
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+
+div.card {
+    margin: 0;
+    padding: 0 10px 30px;
+}
+
+.paypalBtn {
+    margin-top: 8px;
+}
+
+.switch {
+    margin-top: -12px;
+    margin-bottom: 10px;
+}
+
+@media (max-width : 1200px) {
+    .root {
+        .cards {
+            flex-wrap: wrap;
+        }
+        div.card {
+            flex-basis: 50%;
+        }
+    }
+}
+
+
+@media (max-width : 600px) {
+    .root {
+        .cards {
+            flex-direction: column;
+            margin-top: 0px;
+        }
+    }
+}

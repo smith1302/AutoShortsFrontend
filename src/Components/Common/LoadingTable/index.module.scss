@@ -1,0 +1,28 @@
+/* Double class to gain precedence over material ui styles */
+.root.root {
+    padding: 8px 12px;
+    font-family: 'Montserrat', sans-serif;
+    background: var(--single-brand-color);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: white;
+    &.small {
+        font-size: 0.7em;
+    }
+}
+
+.root.root:hover {
+    background: #5f5fff;
+}
+
+.root.root:disabled {
+    color: rgb(160, 160, 160);
+    background: #dfdfe8 !important;
+}
+
+.root.root .progress {
+    color: #5f5fff;
+}

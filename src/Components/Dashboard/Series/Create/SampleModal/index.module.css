@@ -1,0 +1,55 @@
+.root {
+}
+
+.textfield {
+}
+
+.logoBG {
+    background: #f8f8f8;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 900px;
+}
+
+.logo {
+    height: 30px;
+    display: block;
+}
+
+#closeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #444;
+}
+
+.dialogTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-text-color);
+}
+
+.dialogContent {
+    padding: 25px;
+    padding-top: 0;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+#submitButton {
+    align-self: flex-end;
+    margin-top: 16px;
+}
+
+.alert {
+    margin-top: 8px;
+}
+
+@media (max-width : 800px) {
+    .dialogContent {
+        min-width: inherit;
+    }
+}

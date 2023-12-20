@@ -1,0 +1,43 @@
+.root {
+    margin-top: 50px;
+    .paper {
+        .voiceSelector {
+
+            max-height: 200px; // Set the maximum height as per your requirement
+            overflow-y: auto; // Enable vertical scrolling
+            padding-top: 0;
+            padding-bottom: 0;
+
+            .voiceItem {
+                &:hover {
+                    background-color: #f0f0f0;
+                }
+
+                .listItemText {
+                    font-family: 'Montserrat', sans-serif;
+                    color: var(--primary-text-color);
+                }
+
+                .iconButton {
+                    color: var(--single-brand-color);
+                }
+
+                .checkIcon {
+                    color: var(--single-brand-color);
+                }
+
+                &.selected {
+                    background-color: #4f73a914;
+
+                    .MuiListItemText-primary {
+                        font-weight: bold;
+                    }
+                }
+
+                .MuiIconButton-root {
+                    color: var(--single-brand-color);
+                }
+            }
+        }
+    }
+}

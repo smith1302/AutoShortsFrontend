@@ -1,0 +1,18 @@
+.section {
+    width: 100%;
+}
+
+.paper {
+    padding: 30px;
+}
+
+.affiliateURL {
+    font-weight: 500;
+    color: var(--primary-text-color);
+}
+
+@media (max-width : 600px) {
+    .paper {
+        padding: 20px;
+    }
+}

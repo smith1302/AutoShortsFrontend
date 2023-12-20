@@ -1,0 +1,28 @@
+.root {
+    margin: 50px auto 0;
+    max-width: 550px;
+    width: 100%;
+
+    .input {
+        flex: 1 1 auto;
+        margin-right: 5px;
+    }
+
+    .horizontal {
+
+    }
+
+    .alert {
+        margin-top: 16px;
+    }
+
+    .horizontal {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+@media (max-width : 600px) {
+    .root {
+    }
+}

@@ -1,0 +1,45 @@
+.section {
+    width: 100%;
+}
+
+.paper {
+    padding: 20px;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.col {
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    img, video {
+        height: 150px;
+        border-radius: 6px;
+        transition: box-shadow 0.2s;
+        &:hover {
+            box-shadow: 1px 1px 6px #0000005e;
+        }
+    }
+    video {
+        border: 5px solid var(--single-brand-color);
+    }
+    .title {
+        margin-bottom: 10px;
+        font-weight: 600;
+        opacity: 0.8;
+        color: var(--primary-text-color);
+        text-transform: uppercase;
+        font-size: 0.9em;
+    }
+    .download {
+        margin-top: 10px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width : 600px) {
+    .paper {
+        padding: 20px;
+    }
+}

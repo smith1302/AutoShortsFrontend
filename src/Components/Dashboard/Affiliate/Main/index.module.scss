@@ -1,0 +1,19 @@
+.section {
+    margin-bottom: 90px;
+}
+.headerLogo {
+    margin: 0 auto 50px;
+    width: 175px;
+    max-width: 100%;
+    display: block;
+}
+
+@media (max-width : 600px) {
+    .section {
+        margin-bottom: 50px;
+    }
+    .headerLogo {
+        margin-bottom: 50px;
+        width: 135px;
+    }
+}

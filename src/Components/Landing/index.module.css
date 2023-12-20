@@ -1,0 +1,12 @@
+.root {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--black-text-color);
+    background-color: white;
+}
+
+.squigle {
+    height: 95px;
+    display: block;
+    margin: auto;
+    opacity: 0.9;
+}

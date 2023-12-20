@@ -1,0 +1,26 @@
+.bg {
+    background: var(--background-gradient);
+    min-height: 100vh;
+    color: var(--black-text-color);
+}
+
+.contentContainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contentBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    padding-bottom: 50px;
+}
+
+.content h1 {
+    color: white;
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
