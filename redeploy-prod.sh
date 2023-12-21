@@ -18,6 +18,6 @@ rm -rf .next
 
 mv temp .next
 
-pm2 restart EcomWave --update-env
+pm2 restart Frontend --update-env
 
 echo "Deploy done."
