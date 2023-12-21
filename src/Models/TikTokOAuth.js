@@ -22,11 +22,19 @@ export default class TikTokOAuth {
         return csrfToken;
     }
 
+    saveFinalRedirectURL(res, url) {
+        res.setHeader('Set-Cookie', `finalRedirectURL=${url}; HttpOnly; Path=/; Max-Age=3600`);
+    }
+
     validateStateToken(req, state) {
         const token = req.cookies.csrfToken
         const decoded = jwt.verify(token, TikTokOAuth.JWT_SECRET);
         const csrfToken = decoded.csrfToken;
         return csrfToken === state;
+    }
+
+    getFinalRedirectURL(req) {
+        return req.cookies.finalRedirectURL;
     }
 
     async fetchAccessToken(code) {
@@ -40,7 +48,6 @@ export default class TikTokOAuth {
         };
 
         const response = await axios.post(tokenUrl, querystring.stringify(params), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
-        await this.saveTokenData(response.data);
         return response.data;
     }
 
@@ -54,28 +61,11 @@ export default class TikTokOAuth {
         };
 
         const response = await axios.post(tokenUrl, querystring.stringify(params), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
-        await this.saveTokenData(response.data);
         return response.data;
     }
 
-    async saveTokenData(tokenData) {
-        await fs.writeFile(TOKEN_FILE_PATH, JSON.stringify(tokenData));
-    }
-
-    async readTokenData() {
-        try {
-            const data = await fs.readFile(TOKEN_FILE_PATH, 'utf8');
-            return JSON.parse(data);
-        } catch (error) {
-            return null;
-        }
-    }
-
-    async refreshTokenIfNeeded() {
-        const tokenData = await this.readTokenData();
-        if (!tokenData) {
-            return null;
-        }
+    async refreshTokenIfNeeded(tokenData) {
+        if (!tokenData) return null;
 
         const currentTime = new Date().getTime() / 1000;
         if (currentTime >= tokenData.expires_in) {

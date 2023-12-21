@@ -15,11 +15,17 @@ const AccountSelector = () => {
         // Fetch linked accounts from your database and update the state
     }, []);
 
-    const handleAccountChange = (event) => {
+    const handleAccountChange = async (event) => {
         const selectedAccount = event.target.value;
         if (selectedAccount === 'Link new account') {
-            // Redirect to TikTok OAuth
-            TikTokOAuthService.redirectToOAuth();
+            const response = await TikTokOAuthService.getOAuthURL();
+            console.log(response);
+            try {
+                const authUrl = response.authUrl;
+                window.location.href = authUrl;
+            } catch (error) {
+                alert("Could not get TikTok auth url");
+            }
         } else {
             // Set the current account
         }

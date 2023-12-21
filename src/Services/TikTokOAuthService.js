@@ -1,9 +1,9 @@
 import FetchWrapper from '~/src/Services/FetchWrapper';
 
 export default {
-    redirectToOAuth
+    getOAuthURL
 };
 
-async function redirectToOAuth() {
+async function getOAuthURL() {
     return FetchWrapper.get(`/api/auth/tiktok/authStart`);
 }

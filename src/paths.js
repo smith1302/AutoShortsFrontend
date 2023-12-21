@@ -10,6 +10,7 @@ export default {
     pricing: '/#pricing',
     account: '/dashboard/account',
     dashboard: '/dashboard',
+    createSeries: '/dashboard/series/create',
     billing: '/dashboard/billing',
     billingSuccess: '/dashboard/purchase-success',
     account: '/dashboard/account',
