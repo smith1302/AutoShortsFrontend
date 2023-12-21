@@ -11,6 +11,14 @@ export default ApiHandler(false, async (req, res) => {
     let success = false;
     let finalRedirectURL = null;
 
+    console.log('TikTok callback req.query:');
+    console.log(req.query);
+
+    console.log(`------------------`);
+    console.log(`Cookies:`);
+    console.log(req.cookies);
+    console.log(`------------------`);
+
     try {
         const userID = req.user.id;
         const code = req.query.code; // Get the authorization code from query params
@@ -24,6 +32,7 @@ export default ApiHandler(false, async (req, res) => {
         if (!verified) throw new Error('Invalid state token');
 
         finalRedirectURL = tiktokOAuth.getFinalRedirectURL(req);
+        console.log('finalRedirectURL:', finalRedirectURL);
 
         const tokens = await tiktokOAuth.fetchAccessToken(code);
         if (!tokens) throw new Error('Failed to fetch access token');
