@@ -1,6 +1,5 @@
 import ApiHandler from '~/src/Services/ApiHandler';
 import PayPalService from '~/src/Services/PayPalService';
-import { getFinalCSV } from "~/src/Utils/barChartRaceGenerator";
 import SendGrid from '~/src/Models/SendGrid';
 
 export default ApiHandler(false, async (req, res) => {
