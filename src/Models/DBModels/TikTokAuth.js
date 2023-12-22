@@ -36,7 +36,8 @@ export default class TikTokAuth extends DatabaseModel {
             data = VALUES(data),
             displayName = VALUES(displayName),
             avatarURL = VALUES(avatarURL),
-            profileURL = VALUES(profileURL)
+            profileURL = VALUES(profileURL),
+            updated = NOW()
         `;
         const queryValues = [userID, openID, refreshExpiresAt, data, displayName, avatarURL, profileURL];
         const response = await this.query(query, queryValues);
