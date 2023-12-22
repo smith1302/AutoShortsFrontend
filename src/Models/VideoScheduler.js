@@ -15,6 +15,7 @@ export default class VideoScheduler {
         const videoID = await Video.create({
             seriesID: series.id,
             userID: series.userID,
+            voiceID: series.voiceID,
             title: script.title,
             script: script.script,
             caption: script.caption,

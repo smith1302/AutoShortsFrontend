@@ -22,6 +22,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import InsightsIcon from '@mui/icons-material/Insights';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import SlowMotionVideoIcon from '@mui/icons-material/SlowMotionVideo';
 
 export default function Layout({ children }) {
     const {user, subscriptionSummary, registerSource} = useContext(UserContext);
@@ -31,10 +33,10 @@ export default function Layout({ children }) {
 
     const links = [
         {text: 'Home', icon: <HomeIcon />, path: paths.dashboard},
-        // {text: 'Products', icon: <ShoppingCartIcon />, children: [
-        //     {text: 'Popular', icon: <WhatshotIcon />, path: paths.topProducts},
-        //     {text: 'Big movers', icon: <InsightsIcon />, path: paths.productSpotlight},
-        // ]},
+        {text: 'Series', icon: <SlowMotionVideoIcon />, defaultOpen: true, children: [
+            {text: 'View', icon: <InsightsIcon />, path: paths.viewAllSeries},
+            {text: 'Create', icon: <AddCircleOutlineIcon />, path: paths.createSeries},
+        ]},
         // {text: 'Stores', icon: <StoreIcon />, children: [
         //     {text: 'Popular', icon: <WhatshotIcon />, path: paths.topStores},
         //     {text: 'My Tracked', icon: <FavoriteIcon />, path: paths.favorites},
@@ -53,7 +55,7 @@ export default function Layout({ children }) {
             {
                 links.map((link) => {
                     return link.children ? (
-                        <CollapseLink link={link} key={link.text} defaultOpen={linkHasSelectedChildren(link) || (link.extraOpenPaths && link.extraOpenPaths(router.pathname))} />
+                        <CollapseLink link={link} key={link.text} defaultOpen={link.defaultOpen || linkHasSelectedChildren(link) || (link.extraOpenPaths && link.extraOpenPaths(router.pathname))} />
                     ) : (
                         <Link link={link} key={link.text} />
                     )

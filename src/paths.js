@@ -11,6 +11,8 @@ export default {
     account: '/dashboard/account',
     dashboard: '/dashboard',
     createSeries: '/dashboard/series/create',
+    viewAllSeries: '/dashboard/series',
+    manageSeries: (id) => `/dashboard/series/${id}`,
     billing: '/dashboard/billing',
     billingSuccess: '/dashboard/purchase-success',
     account: '/dashboard/account',
@@ -23,4 +25,5 @@ export default {
     facebook: 'https://www.facebook.com/ecomwave.io',
     instagram: 'https://www.instagram.com/ecomwave.io',
     youtube: 'https://www.youtube.com/@EcomWaveio',
+    renderedVideos: 'https://autoshorts.ai/storage/videos/renders'
 }

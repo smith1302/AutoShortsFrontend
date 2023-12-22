@@ -46,7 +46,7 @@ export default class ScriptWriter {
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are a voiceover script writer for short form video content. Your task is to write voiceover scripts for 30-60 second videos. The scripts should only include spoken words - no hashtags or emojis.'
+                        content: 'You are a voiceover script writer for short form video content. Your task is to write voiceover scripts for 30-45 second videos. The scripts should only include spoken words - no hashtags or emojis.'
                     },
                     {
                         role: 'user',
