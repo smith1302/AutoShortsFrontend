@@ -26,10 +26,10 @@ export default class Series extends DatabaseModel {
 
     /* ==== DB Helpers ==== */
 
-    static async create({ title, userID, openID, contentTypeID, prompt, voiceID, created }) {
+    static async create({ title = 'My Series', userID, openID, contentTypeID, prompt, voiceID, created }) {
         const query = `
             INSERT INTO ${this.tableName()}
-            (userID, title, openID, contentTypeID, prompt, voiceID, created)
+            (title, userID, openID, contentTypeID, prompt, voiceID, created)
             VALUES
             (?, ?, ?, ?, ?, ?, ?)
         `;

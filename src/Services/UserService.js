@@ -21,6 +21,7 @@ export default {
     setUser,
     update,
     updateIP,
+    getAccountList,
 };
 
 function currentUser() {
@@ -77,6 +78,10 @@ async function googleAuth(googleData, affiliateRef='') {
 
 async function updateIP() {
     return FetchWrapper.post(`/api/user/updateIP`, {});
+}
+
+async function getAccountList() {
+    return FetchWrapper.get(`/api/user/accountList`);
 }
 
 function logout() {

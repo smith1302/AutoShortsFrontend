@@ -3,18 +3,24 @@ import clsx from "clsx";
 import classes from "./index.module.scss";
 
 import TikTokOAuthService from "~/src/Services/TikTokOAuthService";
+import UserService from "~/src/Services/UserService";
 
 import InputLabel from '@mui/material/InputLabel';
-import {MenuItem, Select} from '@mui/material';
+import {MenuItem, Select, Avatar} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 
-const linkAccount = {openID: -1, name: 'Link a new account +'};
+const linkAccount = {openID: -1, displayName: 'Link a TikTok Account +', avatarURL: null};
 
 const AccountSelector = ({onAccountSelected}) => {
-    const [accounts, setAccounts] = useState([linkAccount, {openID: 1, name: 'Account 1'}, {openID: 2, name: 'Account 2'}]);
+    const [accounts, setAccounts] = useState([linkAccount]);
 
     useEffect(() => {
-        // Fetch linked accounts from your database and update the state
+        (async () => {
+            const accounts = await UserService.getAccountList();
+            if (accounts && accounts.tiktok) {
+                setAccounts([...accounts.tiktok, linkAccount]);
+            }
+        })();
     }, []);
 
     const handleAccountChange = async (event) => {
@@ -48,7 +54,16 @@ const AccountSelector = ({onAccountSelected}) => {
                     displayEmpty
                 >
                     {accounts.map(account => (
-                        <MenuItem key={account.openID} value={account.openID}>{account.name}</MenuItem>
+                        <MenuItem key={account.openID} value={account.openID}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <Avatar 
+                                    alt={account.displayName} 
+                                    src={account.avatarURL}
+                                    style={{ marginRight: 10, width: 30, height: 30 }}
+                                />
+                                {account.displayName}
+                            </div>
+                        </MenuItem>
                     ))}
                 </Select>
             </FormControl>

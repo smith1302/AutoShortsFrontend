@@ -18,17 +18,22 @@ export default ApiHandler(true, async (req, res) => {
     if (!voiceID) throw new Error(`A voice ID is required.`);
     if (!accountID) throw new Error(`An account is required.`);
 
+    const contentType = await ContentType.find(contentTypeID);
     /* Get the prompt (either use the user provided prompt or a system prompt) */
     let prompt;
     if (customPrompt) {
         prompt = customPrompt;
     } else {
-        const contentType = await ContentType.find(contentTypeID);
         prompt = contentType.prompt;
     }
 
+    const existingSeriesOfSameContent = await Series.find({where: {contentTypeID: contentTypeID, userID: userID}});
+    const existingSeriesOfSameContentCount = existingSeriesOfSameContent ? existingSeriesOfSameContent.length : 0;
+    const seriesTitle = `${contentType.name}${existingSeriesOfSameContentCount ? ` #${existingSeriesOfSameContentCount + 1}` : ''}`;
+
     /* Create the series */
     const seriesID = await Series.create({
+        title: seriesTitle,
         userID: userID, 
         openID: accountID,
         contentTypeID: contentTypeID,
@@ -38,10 +43,7 @@ export default ApiHandler(true, async (req, res) => {
 
     /* Create the first video */
     const videoScheduler = new VideoScheduler();
-    const {videoID, videoTitle} = await videoScheduler.scheduleNextVideoInSeries({seriesID});
-
-    /* Name the series after the first video */
-    await Series.update({title: videoTitle}, seriesID);
+    const {videoID} = await videoScheduler.scheduleNextVideoInSeries({seriesID});
 
     return res.status(200).json({success: true, seriesID, videoID});
 });
