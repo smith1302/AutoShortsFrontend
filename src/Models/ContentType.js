@@ -15,6 +15,10 @@ export default class ContentType {
         this.prompt = prompt.substring(0, this.maxPromptLength);
     }
 
+    hasSufficientInformation() {
+        return this.prompt.length > 1;
+    }
+
     static ID = {
         RANDOM_AI_STORY: 'random ai story',
         SCARY_STORIES: 'scary stories',
@@ -78,7 +82,6 @@ export default class ContentType {
                 editPlaceholder: "Enter details about your product here.", 
                 editLabel: "Product Details", 
                 maxPromptLength: 1000,
-                sample: 'Sample story shopify'
             }),
 
             new ContentType({
@@ -89,7 +92,6 @@ export default class ContentType {
                 editPlaceholder: "Example: Write about an interesting, factual event that occured in history that most people do not know about. Keep it short and engaging, in the style of a story.", 
                 editLabel: "Custom Prompt",
                 maxPromptLength: 200,
-                sample: 'Sample story custom'
             })
         ]
     }

@@ -39,7 +39,7 @@ export default ApiHandler(false, async (req, res) => {
 
         await TikTokAuth.create({ 
             userID: userID, 
-            open_id: tokens.open_id, 
+            openID: tokens.open_id, 
             data: JSON.stringify(tokens) 
         });
 

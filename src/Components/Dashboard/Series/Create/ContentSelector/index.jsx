@@ -13,17 +13,17 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 
-function ContentSelector({ children, onContentSelected, contentTypes }) {
+function ContentSelector({ children, onContentSelected, onContentDataChanged, contentTypes }) {
     const [contentType, setContentType] = useState(null);
     const [openImportModal, setOpenImportModal] = useState(false);
     const [openSampleModal, setOpenSampleModal] = useState(false);
-    const [forceUpdate, setForceUpdate] = useState(0);
+    const [contentData, setContentData] = useState(null);
 
     useEffect(() => {
         onContentSelected(null); // Inform the parent component of the default selection
     }, []);
 
-    const handleContentChange = (newContentType) => {
+    const handleContentSelected = (newContentType) => {
         setContentType(newContentType);
         onContentSelected(newContentType);
 
@@ -44,7 +44,9 @@ function ContentSelector({ children, onContentSelected, contentTypes }) {
     // Force a re-render of textarea to use the new prompt
     const setPrompt = (prompt) => {
         contentType.setPrompt(prompt);
-        setForceUpdate(forceUpdate + 1);
+        const contentData = JSON.stringify(contentType);
+        setContentData(contentData);
+        onContentDataChanged(contentData);
     }
 
 	const validateDescription = (description) => {
@@ -57,6 +59,13 @@ function ContentSelector({ children, onContentSelected, contentTypes }) {
 		return text;
 	}
 
+    const showSample = () => {
+        if (!contentType) return false;
+        const hasPresetSample = contentType.sample;
+        const hasCustomPrompt = contentType.prompt.length > 0;
+        return hasPresetSample || hasCustomPrompt;
+    }
+
     return (
         <div className={classes.root}>
             <FormControl fullWidth>
@@ -67,7 +76,7 @@ function ContentSelector({ children, onContentSelected, contentTypes }) {
                     label="Choose Content"
                     onChange={(e) => {
                         const selectedOption = contentTypes.find(option => option.id == e.target.value);
-                        handleContentChange(selectedOption);
+                        handleContentSelected(selectedOption);
                     }}
                     className={classes.selector}
                     displayEmpty
@@ -97,7 +106,7 @@ function ContentSelector({ children, onContentSelected, contentTypes }) {
                     focused
                 />     
             )}
-            {(contentType && contentType.sample) && <a href='#' className={classes.showSample} onClick={()=>setOpenSampleModal(true)}>Show Sample</a>}
+            {showSample() && <a href='#' className={classes.showSample} onClick={()=>setOpenSampleModal(true)}>Show Sample</a>}
 
             <SampleModal open={openSampleModal} onClose={() => setOpenSampleModal(false)} contentType={contentType} />
 

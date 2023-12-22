@@ -2,6 +2,9 @@
 .root {
     .selector {
         background: white;
+        &:before {
+            border-color: red;
+        }
     }
 
     .textarea {

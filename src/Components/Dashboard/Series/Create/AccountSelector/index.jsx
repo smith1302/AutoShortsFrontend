@@ -8,28 +8,33 @@ import InputLabel from '@mui/material/InputLabel';
 import {MenuItem, Select} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 
-const AccountSelector = () => {
-    const [accounts, setAccounts] = useState(['Link new account']);
+const linkAccount = {openID: -1, name: 'Link a new account +'};
+
+const AccountSelector = ({onAccountSelected}) => {
+    const [accounts, setAccounts] = useState([linkAccount, {openID: 1, name: 'Account 1'}, {openID: 2, name: 'Account 2'}]);
 
     useEffect(() => {
         // Fetch linked accounts from your database and update the state
     }, []);
 
     const handleAccountChange = async (event) => {
-        const selectedAccount = event.target.value;
-        if (selectedAccount === 'Link new account') {
-            const response = await TikTokOAuthService.getOAuthURL();
-            console.log(response);
-            try {
-                const authUrl = response.authUrl;
-                window.location.href = authUrl;
-            } catch (error) {
-                alert("Could not get TikTok auth url");
-            }
+        const selectedOpenID = event.target.value;
+        if (selectedOpenID === linkAccount.openID) {
+            linkNewAccount();
         } else {
-            // Set the current account
+            onAccountSelected(selectedOpenID);
         }
     };
+
+    const linkNewAccount = async () => {
+        const response = await TikTokOAuthService.getOAuthURL();
+        try {
+            const authUrl = response.authUrl;
+            window.location.href = authUrl;
+        } catch (error) {
+            alert("Could not get TikTok auth url");
+        }
+    }
 
     return (
         <div className={classes.root}>
@@ -40,9 +45,10 @@ const AccountSelector = () => {
                     labelId="labelID"
                     onChange={handleAccountChange}
                     className={classes.selector}
+                    displayEmpty
                 >
                     {accounts.map(account => (
-                        <MenuItem key={account} value={account}>{account}</MenuItem>
+                        <MenuItem key={account.openID} value={account.openID}>{account.name}</MenuItem>
                     ))}
                 </Select>
             </FormControl>

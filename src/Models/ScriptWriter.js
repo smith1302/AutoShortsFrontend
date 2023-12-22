@@ -7,16 +7,32 @@ export default class ScriptWriter {
 
     async writeScript({basePrompt}) {
         try {
-            const prompt =`Our app automatically creates and posts daily TikTok videos on behalf of our customers. The customers simply provide a basic prompt for the type of content they want, and we use that to generate videos. Your role is to act as our expert scriptwriter for viral short form video content. Below is the prompt that our customer provided us for their series of video content.
+            // const prompt =`Our app automatically creates and posts daily TikTok videos on behalf of our customers. The customers simply provide a basic prompt for the type of content they want, and we use that to generate videos. Your role is to act as our expert scriptwriter for viral short form video content. Below is the prompt that our customer provided us for their series of video content.
 
-            > PROMPT:
-            ${basePrompt}
+            // > PROMPT:
+            // ${basePrompt.substring(0, 2000)}
             
-            > TASK:
-            - Generate a script for today's video that includes a title to display at the beginning of the video.
-            - The title must be 10 words or less.
-            - The script should be between 40-60 words. DO NOT include hashtags.
+            // > TASK:
+            // - Generate a script for today's video that includes a title to display at the beginning of the video. 
+
+            // > UNBREAKABLE RULES:
+            // - The script MUST be between 40-60 words, no more and no less. DO NOT include hashtags.
+            // - The title must be 10 words or less.
+            // - In the event that there are any conflicts between the prompt and the task rules, ALWAYS prioritize the task rules.
                         
+            // > OUTPUT FORMAT:
+            // Provide your response in JSON format as shown below. ONLY OUTPUT THE JSON. DO NOT INCLUDE ANYTHING ELSE IN YOUR RESPONSE.
+            // {
+            //     "title": "[10 words max]",
+            //     "script": "[40-60 words]",
+            //     "caption": "[A short caption for the video. Include 3-5 relevant hashtags.]"
+            // }`;
+
+            const prompt =`Please write me a video script for the topic below. It should include a strong hook.
+
+            TOPIC:
+            ${basePrompt.substring(0, 2000)}
+
             > OUTPUT FORMAT:
             Provide your response in JSON format as shown below. ONLY OUTPUT THE JSON. DO NOT INCLUDE ANYTHING ELSE IN YOUR RESPONSE.
             {
@@ -30,7 +46,7 @@ export default class ScriptWriter {
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are a viral TikTok creator. Your job is to create a highly engaging scripts for a faceless TikTok video series.'
+                        content: 'You are a voiceover script writer for short form video content. Your task is to write voiceover scripts for 30-60 second videos. The scripts should only include spoken words - no hashtags or emojis.'
                     },
                     {
                         role: 'user',
@@ -46,6 +62,7 @@ export default class ScriptWriter {
             content = content.replace("```json", "");
             content = content.replace("```json\n", "");
             content = content.replace("```", "");
+            // console.log(content);
 
             const jsonContent = JSON.parse(content);
             // Remove any hashtags from jsonContent.script, just incase

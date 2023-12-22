@@ -2,12 +2,14 @@ import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
 
 export default class Series extends DatabaseModel {
 
-    constructor({ id, userID, contentTypeID, contentDetails, voiceID, created }) {
+    constructor({ id, title, userID, openID, contentTypeID, prompt, voiceID, created }) {
         super();
         this.id = id;
+        this.title = title;
         this.userID = userID;
+        this.openID = openID;
         this.contentTypeID = contentTypeID;
-		this.contentDetails = contentDetails;
+		this.prompt = prompt;
 		this.voiceID = voiceID;
 		this.created = created;
     }
@@ -24,14 +26,14 @@ export default class Series extends DatabaseModel {
 
     /* ==== DB Helpers ==== */
 
-    static async create({ userID, contentTypeID, contentDetails, voiceID, created }) {
+    static async create({ title, userID, openID, contentTypeID, prompt, voiceID, created }) {
         const query = `
             INSERT INTO ${this.tableName()}
-            (userID, contentTypeID, contentDetails, voiceID, created)
+            (userID, title, openID, contentTypeID, prompt, voiceID, created)
             VALUES
-            (?, ?, ?, ?, ?)
+            (?, ?, ?, ?, ?, ?, ?)
         `;
-        const queryValues = [userID, contentTypeID, contentDetails, voiceID, created];
+        const queryValues = [title, userID, openID, contentTypeID, prompt, voiceID, created];
         const response = await this.query(query, queryValues);
         return response.insertId;
     }

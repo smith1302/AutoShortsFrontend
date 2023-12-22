@@ -2,10 +2,10 @@ import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
 
 export default class TikTokAuth extends DatabaseModel {
 
-    constructor({ userID, open_id, data }) {
+    constructor({ userID, openID, data }) {
         super();
         this.userID = userID;
-		this.open_id = open_id;
+		this.openID = openID;
 		this.data = data;
     }
 
@@ -21,14 +21,14 @@ export default class TikTokAuth extends DatabaseModel {
 
     /* ==== DB Helpers ==== */
 
-    static async create({ userID, open_id, data }) {
+    static async create({ userID, openID, data }) {
         const query = `
             INSERT INTO ${this.tableName()}
-            (userID, open_id, data)
+            (userID, openID, data)
             VALUES
             (?, ?, ?)
         `;
-        const queryValues = [userID, open_id, data];
+        const queryValues = [userID, openID, data];
         const response = await this.query(query, queryValues);
         return response.insertId;
     }

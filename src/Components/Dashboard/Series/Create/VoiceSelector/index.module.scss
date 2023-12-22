@@ -1,5 +1,15 @@
 .root {
-    margin-top: 50px;
+    margin-top: 30px;
+    font-family: 'Montserrat', sans-serif;
+
+    .heading {
+        color: var(--primary-text-color);
+        font-weight: 500;
+        font-size: .9em;
+        opacity: .9;
+        margin-bottom: 10px;
+    }
+
     .paper {
         .voiceSelector {
 
@@ -9,6 +19,8 @@
             padding-bottom: 0;
 
             .voiceItem {
+                padding: 4px 8px;
+
                 &:hover {
                     background-color: #f0f0f0;
                 }

@@ -57,7 +57,7 @@ const VoiceSelector = ({ voices, onVoiceSelected }) => {
 
     return (
         <div className={classes.root}>
-            <PageHeading title="Choose a Voice" />
+            <div className={classes.heading}>Narration Voice</div>
             <Paper className={classes.paper}>
                 <List className={classes.voiceSelector}>
                     {voices.map((voice, index) => (
