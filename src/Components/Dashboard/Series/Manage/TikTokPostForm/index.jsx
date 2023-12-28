@@ -8,12 +8,39 @@ import Button from '~/src/Components/Common/Button';
 import { TextField, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Switch, Typography, Stack, Tooltip } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 
-const TikTokPostForm = ({onUploadAllowedChange}) => {
-    const [title, setTitle] = useState('');
+/*
+    creatorInfo: {
+        stitch_disabled: true,
+        comment_disabled: false,
+        creator_avatar_url: 'https://p19-sign.tiktokcdn-us.com/tos-useast5-avt-0068-tx/a8a5b2a3e11d6c916a599d5e91028f5e~c5_168x168.webp?lk3s=a5d48078&x-expires=1703901600&x-signature=Ux6i35XMpc0LVysP3GH2wXN5CzI%3D',
+        creator_nickname: 'TheMemeMaestro',
+        creator_username: 'burbanheimerman',
+        duet_disabled: true,
+        max_video_post_duration_sec: 600,
+        privacy_level_options: [ 'PUBLIC_TO_EVERYONE', 'MUTUAL_FOLLOW_FRIENDS', 'SELF_ONLY' ]
+    }
+*/
+
+// const PrivacyOptions = {
+//     'Public': 'PUBLIC_TO_EVERYONE',
+//     'Private': 'SELF_ONLY',
+//     'Friends': 'MUTUAL_FOLLOW_FRIENDS',
+//     'Followers': 'FOLLOWER_OF_CREATOR'
+// }
+
+const PrivacyOptions = {
+    "PUBLIC_TO_EVERYONE": "Public",
+    "SELF_ONLY": "Private",
+    "MUTUAL_FOLLOW_FRIENDS": "Friends",
+    "FOLLOWER_OF_CREATOR": "Followers"
+}
+
+
+const TikTokPostForm = ({creatorInfo, onUploadAllowedChange}) => {
     const [privacy, setPrivacy] = useState('');
-    const [allowComment, setAllowComment] = useState(false);
-    const [allowDuet, setAllowDuet] = useState(false);
-    const [allowStitch, setAllowStitch] = useState(false);
+    const [allowComment, setAllowComment] = useState(!creatorInfo.comment_disabled);
+    const [allowDuet, setAllowDuet] = useState(!creatorInfo.duet_disabled);
+    const [allowStitch, setAllowStitch] = useState(!creatorInfo.stitch_disabled);
     const [commercialContent, setCommercialContent] = useState(false);
     const [yourBrand, setYourBrand] = useState(false);
     const [brandedContent, setBrandedContent] = useState(false);
@@ -29,7 +56,7 @@ const TikTokPostForm = ({onUploadAllowedChange}) => {
         }
 
         if (commercialContent && brandedContent && privacy === 'private') {
-            setPrivacy('public'); // Automatically switch to public if branded content is selected
+            setPrivacy('public');
         }
     }, [commercialContent, yourBrand, brandedContent, privacy]);
 
@@ -38,10 +65,6 @@ const TikTokPostForm = ({onUploadAllowedChange}) => {
             onUploadAllowedChange({allow: !disableUpload});
         }
     }, [disableUpload]);
-
-    const tooltipTitle = commercialContent && !(yourBrand || brandedContent)
-        ? "You need to indicate if your content promotes yourself, a third party, or both."
-        : "";
 
     const handlePrivacyChange = (event) => {
         setPrivacy(event.target.value);
@@ -67,19 +90,29 @@ const TikTokPostForm = ({onUploadAllowedChange}) => {
                     Who can view this video
                 </div>
                 <Select value={privacy} onChange={handlePrivacyChange} size="small">
-                    {/* Options populated based on creator_info API */}
-                    <MenuItem value="public">Public</MenuItem>
-                    <MenuItem value="private" disabled={commercialContent && brandedContent}>Private {(commercialContent && brandedContent) ? '(Branded content cannot be private)' : ''}</MenuItem>
-                    <MenuItem value="friends">Friends</MenuItem>
+                    {creatorInfo.privacy_level_options.map((option, index) => {
+                        const isPrivate = option === 'SELF_ONLY';
+                        const isDisabled = isPrivate && (commercialContent && brandedContent);
+                        let menuText = PrivacyOptions[option];
+                        if (isPrivate && isDisabled) {
+                            menuText += ' (Branded content cannot be private)';
+                        }
+                        return (
+                            <MenuItem key={option} value={option} disabled={isDisabled}>{menuText}</MenuItem>
+                        );
+                    })}
                 </Select>
             </Stack>
 
             <InteractionAbilities
                 allowComment={allowComment}
+                allowCommentDisabled={creatorInfo.comment_disabled}
                 setAllowComment={setAllowComment}
                 allowDuet={allowDuet}
+                allowDuetDisabled={creatorInfo.duet_disabled}
                 setAllowDuet={setAllowDuet}
                 allowStitch={allowStitch}
+                allowStitchDisabled={creatorInfo.stitch_disabled}
                 setAllowStitch={setAllowStitch}
             />
 
@@ -129,10 +162,17 @@ const TikTokPostForm = ({onUploadAllowedChange}) => {
     );
 };
 
-const InteractionAbilities = ({ allowComment, setAllowComment, allowDuet, setAllowDuet, allowStitch, setAllowStitch }) => {
-    // Assuming `allowDuet` and `allowStitch` might be disabled based on some condition, which you should replace with actual logic
-    const duetDisabled = false; // replace with actual condition
-    const stitchDisabled = false; // replace with actual condition
+const InteractionAbilities = ({ 
+    allowComment, 
+    allowCommentDisabled,
+    setAllowComment, 
+    allowDuet, 
+    allowDuetDisabled,
+    setAllowDuet, 
+    allowStitch, 
+    allowStitchDisabled,
+    setAllowStitch 
+}) => {
 
     return (
         <Stack direction="column" sx={{ marginBottom: 1 }}>
@@ -141,15 +181,15 @@ const InteractionAbilities = ({ allowComment, setAllowComment, allowDuet, setAll
             </div>
             <FormGroup row>
                 <FormControlLabel
-                    control={<Checkbox checked={allowComment} onChange={(e) => setAllowComment(e.target.checked)} name="allowComment" />}
+                    control={<Checkbox checked={allowComment} onChange={(e) => setAllowComment(e.target.checked)} name="allowComment" disabled={allowCommentDisabled} />}
                     label="Comment"
                 />
                 <FormControlLabel
-                    control={<Checkbox checked={allowDuet} onChange={(e) => setAllowDuet(e.target.checked)} name="allowDuet" disabled={duetDisabled} />}
+                    control={<Checkbox checked={allowDuet} onChange={(e) => setAllowDuet(e.target.checked)} name="allowDuet" disabled={allowDuetDisabled} />}
                     label="Duet"
                 />
                 <FormControlLabel
-                    control={<Checkbox checked={allowStitch} onChange={(e) => setAllowStitch(e.target.checked)} name="allowStitch" disabled={stitchDisabled} />}
+                    control={<Checkbox checked={allowStitch} onChange={(e) => setAllowStitch(e.target.checked)} name="allowStitch" disabled={allowStitchDisabled} />}
                     label="Stitch"
                 />
             </FormGroup>

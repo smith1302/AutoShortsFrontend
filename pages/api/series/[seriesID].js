@@ -1,9 +1,8 @@
 import ApiHandler from '~/src/Services/ApiHandler';
-import ScriptWriter from '~/src/Models/ScriptWriter';
-import ContentType from '~/src/Models/ContentType';
-import VideoScheduler from '~/src/Models/VideoScheduler';
 import Video from '~/src/Models/DBModels/Video';
 import Series from '~/src/Models/DBModels/Series';
+import TikTokAuth from '~/src/Models/DBModels/TikTokAuth';
+
 
 export default ApiHandler(true, async (req, res) => {
     if (req.method != 'GET') {
@@ -17,7 +16,11 @@ export default ApiHandler(true, async (req, res) => {
     if (!seriesID) throw new Error(`Series ID is required.`);
     
     const series = await Series.findOne({where: {userID: userID, id: seriesID}});
+    // Grab the upcoming video
     const video = await Video.findOne({where: {userID: userID, seriesID: seriesID}, orderBy: {fieldName: 'created', direction: 'DESC'}});
 
-    return res.status(200).json({series, video});
+    // Get the updated TikTok creator info
+    const creatorInfo = await TikTokAuth.getCreatorInfo({openID: series.openID});
+
+    return res.status(200).json({series, video, creatorInfo});
 });

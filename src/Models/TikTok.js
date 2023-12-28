@@ -105,6 +105,12 @@ export default class TikTok {
         return response.data;
     }
 
+    async fetchCreatorInfo(tokenData) {
+        const endpoint = 'https://open.tiktokapis.com/v2/post/publish/creator_info/query/';
+        const response = await this.makeApiCall(tokenData, endpoint, 'POST');
+        return response.data;
+    }
+
     /* API Handling */
 
     async makeApiCall(tokenData, endpoint, method = 'GET', data = null) {

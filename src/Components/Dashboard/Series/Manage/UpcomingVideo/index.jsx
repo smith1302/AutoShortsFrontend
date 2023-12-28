@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 import UpcomingIcon from '@mui/icons-material/Upcoming';
 import EventIcon from '@mui/icons-material/Event';
 
-const Series = ({video, onVideoUpdated}) => {
+const UpcomingVideo = ({video, creatorInfo, onVideoUpdated}) => {
 
     if (!video) {
         return (
@@ -27,7 +27,10 @@ const Series = ({video, onVideoUpdated}) => {
  
     return (
         <Paper className={classes.paper}>
-            <MainContent video={video} onSave={onVideoUpdated} />
+            <MainContent 
+                video={video} 
+                creatorInfo={creatorInfo}
+                onSave={onVideoUpdated} />
         </Paper>
     );
 };
@@ -46,7 +49,7 @@ const isVideoReady = (video) => {
     return video && video.videoUrl;
 };
 
-const MainContent = ({video, onSave}) => {
+const MainContent = ({video, creatorInfo, onSave}) => {
     const [videoAvailable, setVideoAvailable] = useState(isVideoReady(video));
     const [loading, setLoading] = useState(false);
     const [isChanged, setIsChanged] = useState(false);
@@ -198,7 +201,7 @@ const MainContent = ({video, onSave}) => {
                         <div className={classes.scheduledTime}>{convertToReadableLocalTime(video.scheduledDate)} (Local)</div>
                     </div>
 
-                    <TikTokPostForm onUploadAllowedChange={handleUploadAllowedChange} />
+                    <TikTokPostForm creatorInfo={creatorInfo} onUploadAllowedChange={handleUploadAllowedChange} />
 
                     <Button onClick={handleSave} disabled={!isChanged || checkIfAnyErrors() || !videoAvailable || !tiktokUploadAllowed} loading={loading} className={classes.saveButton}>
                         Update Video
@@ -250,4 +253,4 @@ function convertToReadableLocalTime(isoString) {
     return date.toLocaleString([], options);
 }
 
-export default withAuthProtection(Series);
+export default withAuthProtection(UpcomingVideo);

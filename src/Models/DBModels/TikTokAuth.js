@@ -1,4 +1,6 @@
 import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
+import TikTok from '~/src/Models/TikTok';
+import cache from '~/src/Utils/nodeCache';
 
 export default class TikTokAuth extends DatabaseModel {
 
@@ -10,6 +12,10 @@ export default class TikTokAuth extends DatabaseModel {
         this.displayName = displayName;
         this.avatarURL = avatarURL;
         this.profileURL = profileURL;
+    }
+
+    getTokenData() {
+        return JSON.parse(this.data);
     }
 
     /* ==== DatabaseModel overrides ==== */
@@ -54,5 +60,35 @@ export default class TikTokAuth extends DatabaseModel {
         `;
         const queryValues = [userID];
         return await this.query(query, queryValues);
+    }
+
+    /* ==== Other Helpers ==== */
+
+    static async getCreatorInfo({openID}) {
+        const cacheKey = `tiktok-creatorinfo-${openID}`;
+        const cachedResult = cache.get(cacheKey);
+        if (cachedResult) {
+            console.log(`Cache hit for ${cacheKey}`);
+            return cachedResult;
+        }
+        
+        // Get the connected TikTok account's token data
+        const tiktokAuth = await TikTokAuth.findOne({where: {openID: openID}});
+        const tiktok = new TikTok();
+        // Fetch the creator info and cache it
+        const creatorInfo = await tiktok.fetchCreatorInfo(tiktokAuth.getTokenData());
+        // 2 hours since this is the duration of the avatar url
+        cache.set(cacheKey, creatorInfo, 60 * 60 * 2);
+
+        // Update the TikTokAuth record with the new info
+        const query = `
+            UPDATE ${this.tableName()}
+            SET displayName = ?, avatarURL = ? updated = NOW()
+            WHERE openID = ?
+        `
+        const queryValues = [creatorInfo.creator_nickname, creatorInfo.creator_avatar_url, openID];
+        await this.query(query, queryValues);
+
+        return creatorInfo;
     }
 }

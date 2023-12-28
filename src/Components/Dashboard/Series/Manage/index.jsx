@@ -17,6 +17,7 @@ import UpcomingVideo from "./UpcomingVideo";
 const ManageSeries = ({id}) => {
     const [series, setSeries] = useState(null);
     const [video, setVideo] = useState(null);
+    const [creatorInfo, setCreatorInfo] = useState(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -29,6 +30,7 @@ const ManageSeries = ({id}) => {
             const data = await SeriesService.get({seriesID: id});
             setSeries(data.series);
             setVideo(data.video);
+            setCreatorInfo(data.creatorInfo);
         } catch (err) {
             alert(err.message);
         } finally {
@@ -47,7 +49,10 @@ const ManageSeries = ({id}) => {
                 <a href={paths.viewAllSeries} className={classes.back}>BACK</a>
                 <ContentContainer className={classes.contentContainer}>
                     {series && <PageHeading title={series.title} light={true} />}
-                    <UpcomingVideo series={series} video={video} onVideoUpdated={handleUpcomingVideoUpdated} />
+                    <UpcomingVideo 
+                        video={video} 
+                        creatorInfo={creatorInfo}
+                        onVideoUpdated={handleUpcomingVideoUpdated} />
                 </ContentContainer>
             </div>
         </Layout>
