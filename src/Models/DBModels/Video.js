@@ -1,5 +1,9 @@
 import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
 
+/*
+    To trigger a new render:
+    - Set jobID to null and pendingCreation to 1
+*/
 export default class Video extends DatabaseModel {
 
     constructor({ id, seriesID, userID, voiceID, title, script, caption, scheduledDate, postedDate, videoUrl, posted, created, updated, jobID, pendingCreation }) {

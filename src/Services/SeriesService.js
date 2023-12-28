@@ -4,7 +4,8 @@ export default {
     get,
     getAll,
     create,
-    getSample
+    getSample,
+    updateVideo
 };
 
 async function getAll() {
@@ -17,6 +18,10 @@ async function get({seriesID}) {
 
 async function create({contentTypeID, customPrompt, voiceID, accountID}) {
     return FetchWrapper.post(`/api/series/create`, {contentTypeID, customPrompt, voiceID, accountID});
+}
+
+async function updateVideo({videoID, title, caption, script}) {
+    return FetchWrapper.put(`/api/series/video/${videoID}`, {title, caption, script});
 }
 
 async function getSample({sampleDetails}) {

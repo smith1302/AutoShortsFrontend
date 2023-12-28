@@ -11,6 +11,10 @@
     color: white;
     &.small {
         font-size: 0.7em;
+        padding: 6px 10px;
+        svg {
+            font-size: 1rem;
+        }
     }
 }
 

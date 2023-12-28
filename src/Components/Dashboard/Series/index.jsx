@@ -8,7 +8,6 @@ import SeriesService from "~src/Services/SeriesService";
 import Layout from "~/src/Components/Dashboard/Layout";
 import withAuthProtection from '~/src/Components/Common/withAuthProtection';
 import Button from '~/src/Components/Common/Button';
-import UserContext from '~/src/Components/UserContext';
 import SlantBGBox from "~/src/Components/Dashboard/SlantBGBox";
 import ContentContainer from "~/src/Components/Common/ContentContainer";
 import PageHeading from "~/src/Components/Dashboard/PageHeading";
@@ -16,8 +15,6 @@ import PageHeading from "~/src/Components/Dashboard/PageHeading";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
@@ -39,12 +36,16 @@ const Series = () => {
         window.location.href = paths.manageSeries(series.id);
     };
 
+    const handleCreateSeries = () => {
+        window.location.href = paths.createSeries;
+    };
+
     return (
         <Layout>
             <div className={classes.root}>
                 <SlantBGBox />
                 <ContentContainer className={classes.contentContainer}>
-                    <PageHeading title={`Your Series`} light={true} />
+                    <PageHeading title={`Your Series`} light={true} right={<Button small={true} onClick={handleCreateSeries}>Create +</Button>} />
                     <Paper className={classes.paper}>
                         {(series && series.length > 0) ? (
                             <SeriesList series={series} handleSelectSeries={handleSelectSeries} />

@@ -1,0 +1,39 @@
+@use "/styles/mixins";
+
+.root {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-text-color);
+
+    .sectionTitle {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        svg {
+            margin-right: 7px;
+            font-size: 1.1rem;
+        }
+    }
+
+    .disclaimer {
+        padding: 10px;
+        background: var(--single-brand-color-lighter);
+        border-radius: 5px;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 10px;
+        svg {
+            margin-right: 5px;
+            font-size: 1.1rem;
+        }
+    }
+}
+
+
+@media (max-width : 600px) {
+    .root {
+        padding: 60px 0 80px;
+    }
+}
