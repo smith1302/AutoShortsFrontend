@@ -5,7 +5,9 @@ export default {
     getAll,
     create,
     getSample,
-    updateVideo
+    updateVideo,
+    updateSeries,
+    deleteSeries
 };
 
 async function getAll() {
@@ -22,6 +24,14 @@ async function create({contentTypeID, customPrompt, voiceID, accountID}) {
 
 async function updateVideo({videoID, title, caption, script}) {
     return FetchWrapper.put(`/api/series/video/${videoID}`, {title, caption, script});
+}
+
+async function updateSeries({seriesID, privacy, duetDisabled, stitchDisabled, commentDisabled, openID}) {
+    return FetchWrapper.put(`/api/series/${seriesID}`, {privacy, duetDisabled, stitchDisabled, commentDisabled, openID});
+}
+
+async function deleteSeries({seriesID}) {
+    return FetchWrapper.delete(`/api/series/${seriesID}`);
 }
 
 async function getSample({sampleDetails}) {

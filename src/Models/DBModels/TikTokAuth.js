@@ -83,7 +83,7 @@ export default class TikTokAuth extends DatabaseModel {
         // Update the TikTokAuth record with the new info
         const query = `
             UPDATE ${this.tableName()}
-            SET displayName = ?, avatarURL = ? updated = NOW()
+            SET displayName = ?, avatarURL = ?, updated = NOW()
             WHERE openID = ?
         `
         const queryValues = [creatorInfo.creator_nickname, creatorInfo.creator_avatar_url, openID];

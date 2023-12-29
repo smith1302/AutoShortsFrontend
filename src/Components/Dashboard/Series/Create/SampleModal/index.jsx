@@ -25,8 +25,8 @@ export default function ImportModal({open, onClose, contentType}) {
             const sampleCacheKey = `${contentType.id}-${contentType.prompt}`;
             if (contentType.editable) {
                 if (sampleCacheKey in sampleCache) {
-                    // setSample(sampleCache[sampleCacheKey]);
-                    // return
+                    setSample(sampleCache[sampleCacheKey]);
+                    return
                 }
 
                 try {

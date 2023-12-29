@@ -6,7 +6,7 @@ import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
 */
 export default class Video extends DatabaseModel {
 
-    constructor({ id, seriesID, userID, voiceID, title, script, caption, scheduledDate, postedDate, videoUrl, posted, created, updated, jobID, pendingCreation }) {
+    constructor({ id, seriesID, userID, voiceID, title, script, caption, backgroundVideo, scheduledDate, postedDate, videoUrl, posted, created, updated, jobID, pendingCreation }) {
         super();
         this.id = id;
         this.seriesID = seriesID;
@@ -15,6 +15,7 @@ export default class Video extends DatabaseModel {
 		this.title = title;
 		this.script = script;
 		this.caption = caption;
+        this.backgroundVideo = backgroundVideo;
 		this.scheduledDate = scheduledDate;
 		this.postedDate = postedDate;
 		this.videoUrl = videoUrl;
@@ -23,6 +24,10 @@ export default class Video extends DatabaseModel {
 		this.updated = updated;
 		this.jobID = jobID;
 		this.pendingCreation = pendingCreation;
+    }
+
+    requiresNewRender({title, caption, script}) {
+        return this.title !== title || this.caption !== caption || this.script !== script;
     }
 
     /* ==== DatabaseModel overrides ==== */
@@ -37,14 +42,14 @@ export default class Video extends DatabaseModel {
 
     /* ==== DB Helpers ==== */
 
-    static async create({ id, seriesID, userID, voiceID, title, script, caption, scheduledDate}) {
+    static async create({ id, seriesID, userID, voiceID, title, script, caption, backgroundVideo, scheduledDate}) {
         const query = `
             INSERT INTO ${this.tableName()}
-            (id, seriesID, userID, voiceID, title, script, caption, scheduledDate)
+            (id, seriesID, userID, voiceID, title, script, caption, backgroundVideo, scheduledDate)
             VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?)
+            (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const queryValues = [id, seriesID, userID, voiceID, title, script, caption, scheduledDate];
+        const queryValues = [id, seriesID, userID, voiceID, title, script, caption, backgroundVideo, scheduledDate];
         const response = await this.query(query, queryValues);
         return response.insertId;
     }

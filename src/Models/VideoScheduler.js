@@ -19,6 +19,7 @@ export default class VideoScheduler {
             title: script.title,
             script: script.script,
             caption: script.caption,
+            backgroundVideo: script.background,
             scheduledDate: scheduledDate
         });
         return {videoID, videoTitle: script.title};
@@ -33,17 +34,22 @@ export default class VideoScheduler {
         const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const postDays = { 'Monday': 1, 'Wednesday': 3, 'Friday': 5 };
     
+        // If current time is after 12 PM UTC, choose the next date
+        let dayOffset = 0;
+        if (now.getUTCHours() >= 11) {
+            dayOffset = 1;
+        }
         // Find the next post day
         let daysToAdd = 0;
-        let currentDayIndex = now.getDay();
+        let currentDayIndex = now.getUTCDay() + dayOffset;
         while (!postDays[daysOfWeek[(currentDayIndex + daysToAdd) % 7]]) {
             daysToAdd++;
         }
     
         // Calculate the next post date
         const nextPostDate = new Date(now);
-        nextPostDate.setDate(now.getDate() + daysToAdd);
-        nextPostDate.setHours(12, 0, 0, 0); // Set to 12 PM
+        nextPostDate.setUTCDate(now.getUTCDate() + daysToAdd);
+        nextPostDate.setUTCHours(12, 0, 0, 0); // Set to 12 PM UTC
     
         return nextPostDate;
     }

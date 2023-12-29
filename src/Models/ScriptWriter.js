@@ -1,32 +1,60 @@
 import OpenAI from 'openai';
+import BackgroundVideo from '~/src/Models/DBModels/BackgroundVideo';
 
 export default class ScriptWriter {
     constructor() {
         this.openai = new OpenAI({apiKey: process.env.OPENAI_KEY});
     }
 
-    async writeScript({basePrompt}) {
+    async getSimilarBackgroundVideos(input) {
+        let similarBackground = null;
+        const backgroundVideos = await BackgroundVideo.getAll();
         try {
-            // const prompt =`Our app automatically creates and posts daily TikTok videos on behalf of our customers. The customers simply provide a basic prompt for the type of content they want, and we use that to generate videos. Your role is to act as our expert scriptwriter for viral short form video content. Below is the prompt that our customer provided us for their series of video content.
+            const descriptions = backgroundVideos.map(video => video.description);
+            const userInputEmbedding = await this.getEmbeddings([input]);
+            const descriptionEmbeddings = await this.getEmbeddings(descriptions);
 
-            // > PROMPT:
-            // ${basePrompt.substring(0, 2000)}
-            
-            // > TASK:
-            // - Generate a script for today's video that includes a title to display at the beginning of the video. 
+            const similarities = descriptionEmbeddings.map((descEmbedding) =>
+                this.cosineSimilarity(userInputEmbedding[0], descEmbedding)
+            );
 
-            // > UNBREAKABLE RULES:
-            // - The script MUST be between 40-60 words, no more and no less. DO NOT include hashtags.
-            // - The title must be 10 words or less.
-            // - In the event that there are any conflicts between the prompt and the task rules, ALWAYS prioritize the task rules.
-                        
-            // > OUTPUT FORMAT:
-            // Provide your response in JSON format as shown below. ONLY OUTPUT THE JSON. DO NOT INCLUDE ANYTHING ELSE IN YOUR RESPONSE.
-            // {
-            //     "title": "[10 words max]",
-            //     "script": "[40-60 words]",
-            //     "caption": "[A short caption for the video. Include 3-5 relevant hashtags.]"
-            // }`;
+            const mostSimilarIndex = similarities.indexOf(Math.max(...similarities));
+            const mostSimilarDescription = descriptions[mostSimilarIndex];
+            similarBackground = backgroundVideos[mostSimilarIndex];
+
+            console.log("Most similar background:");
+            console.log(similarBackground);
+        } catch (error) {
+            console.error("Error:", error);
+            similarBackground = this.getRandBackgroundVideo(backgroundVideos);
+        }
+
+        return similarBackground;
+    }
+
+    async getEmbeddings(texts) {
+        const response = await this.openai.embeddings.create({
+            model: "text-embedding-ada-002",
+            input: texts,
+        });
+        return response.data.map(embedding => embedding.embedding);
+    }
+
+    cosineSimilarity(a, b) {
+        let dotProduct = 0.0;
+        let normA = 0.0;
+        let normB = 0.0;
+        for (let i = 0; i < a.length; i++) {
+            dotProduct += a[i] * b[i];
+            normA += Math.pow(a[i], 2);
+            normB += Math.pow(b[i], 2);
+        }
+        return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+
+    async writeScript({basePrompt}) {
+        let content;
+        try {
 
             const prompt =`Please write me a video script for the topic below. It should include a strong hook.
 
@@ -41,6 +69,27 @@ export default class ScriptWriter {
                 "caption": "[A short caption for the video. Include 3-5 relevant hashtags.]"
             }`;
 
+            const backgroundVideos = await BackgroundVideo.getAll();
+            const formattedBackgroundVideos = JSON.stringify(backgroundVideos.map(video => {return {filename: video.filename, desc: video.description}}));
+
+            const prompt2 = `# Objective: Develop comprehensive text content for faceless videos.
+
+            # Content Requirements:
+            
+            Script: Craft a script suitable for a voiceover. Duration should be approximately 30-45 seconds when read aloud. The script should be formatted to be read aloud, so do not include hashtags, emojis, or other text that would not be spoken. The script should include a strong hook.
+            Caption: Create a concise caption for the video, ideally one sentence. Include 3-5 relevant hashtags to enhance social media engagement.
+            Title: Devise a compelling title for the video, limited to 10 words or fewer.
+            
+            # Theme: ${basePrompt.substring(0, 2000)}
+            
+            # OUTPUT FORMAT:
+            Provide your response in JSON format as shown below. ONLY OUTPUT THE JSON. DO NOT INCLUDE ANYTHING ELSE IN YOUR RESPONSE.
+            {
+                "title": "...",
+                "script": "...",
+                "caption": "..."
+            }`
+
             const response = await this.openai.chat.completions.create({
                 model: 'gpt-3.5-turbo',
                 messages: [
@@ -50,14 +99,14 @@ export default class ScriptWriter {
                     },
                     {
                         role: 'user',
-                        content: prompt
+                        content: prompt2
                     }
                 ],
-                max_tokens: 3000,
+                max_tokens: 4000,
                 temperature: 1
             });
 
-            let content = response.choices[0].message.content;
+            content = response.choices[0].message.content;
             content = content.replace(/.*\[/, "[");
             content = content.replace("```json", "");
             content = content.replace("```json\n", "");
@@ -67,12 +116,25 @@ export default class ScriptWriter {
             const jsonContent = JSON.parse(content);
             // Remove any hashtags from jsonContent.script, just incase
             jsonContent.script = jsonContent.script.replace(/#[^\s]+/g, "");
+            // Remove beginning and trailing whitespace from jsonContent.script
+            jsonContent.script = jsonContent.script.trim();
+            jsonContent.background = await this.getSimilarBackgroundVideos(jsonContent.script);
             
             return jsonContent
         } catch (error) {
             console.error('Error getting ScriptWriter:', error);
+            console.log("Conent:");
+            console.log(content);
             return null;
         }
+    }
+
+    isValidBackgroundVideoName = (backgroundVideos, name) => {
+        return backgroundVideos.some(video => video.filename === name);
+    }
+
+    getRandBackgroundVideo = (backgroundVideos) => {
+        return backgroundVideos[Math.floor(Math.random() * backgroundVideos.length)];
     }
 
     async writeEcomScript({productName, productDescription, price = null}) {

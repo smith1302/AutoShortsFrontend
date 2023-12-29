@@ -11,7 +11,7 @@ import FormControl from '@mui/material/FormControl';
 
 const linkAccount = {openID: -1, displayName: 'Link a TikTok Account +', avatarURL: null};
 
-const AccountSelector = ({onAccountSelected}) => {
+const AccountSelector = ({selectedAccount = null, setSelectedAccount, size = null, label = null, disabled}) => {
     const [accounts, setAccounts] = useState([linkAccount]);
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const AccountSelector = ({onAccountSelected}) => {
         if (selectedOpenID === linkAccount.openID) {
             linkNewAccount();
         } else {
-            onAccountSelected(selectedOpenID);
+            setSelectedAccount(selectedOpenID);
         }
     };
 
@@ -42,16 +42,20 @@ const AccountSelector = ({onAccountSelected}) => {
         }
     }
 
+    const avatarSize = size === 'small' ? 20 : 25;
+
     return (
         <div className={classes.root}>
-            <FormControl fullWidth>
-                <InputLabel id="labelID">Select Account</InputLabel>
+            <FormControl fullWidth size={size}>
+                {label && <InputLabel id="labelID">{label}</InputLabel>}
                 <Select
-                    label="Select Account"
+                    label={label}
                     labelId="labelID"
+                    value={selectedAccount}
                     onChange={handleAccountChange}
                     className={classes.selector}
                     displayEmpty
+                    disabled={disabled}
                 >
                     {accounts.map(account => (
                         <MenuItem key={account.openID} value={account.openID}>
@@ -59,7 +63,7 @@ const AccountSelector = ({onAccountSelected}) => {
                                 <Avatar 
                                     alt={account.displayName} 
                                     src={account.avatarURL}
-                                    style={{ marginRight: 10, width: 30, height: 30 }}
+                                    style={{ marginRight: 8, width: avatarSize, height: avatarSize }}
                                 />
                                 {account.displayName}
                             </div>

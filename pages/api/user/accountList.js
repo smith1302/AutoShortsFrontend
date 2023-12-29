@@ -8,13 +8,16 @@ export default ApiHandler(false, async (req, res) => {
 
     const userID = req.user.id;
     let tiktokAccounts = await TikTokAuth.getAllWithActiveTokens(userID);
-    tiktokAccounts = tiktokAccounts.map((tiktokAccount) => {
+    tiktokAccounts = await Promise.all(tiktokAccounts.map(async (tiktokAccount) => {
+        // Make sure we have the latest information
+        const creatorInfo = await TikTokAuth.getCreatorInfo({openID: tiktokAccount.openID});
         return {
             openID: tiktokAccount.openID,
-            displayName: tiktokAccount.displayName,
-            avatarURL: tiktokAccount.avatarURL,
+            displayName: creatorInfo?.creator_nickname || tiktokAccount.displayName,
+            avatarURL: creatorInfo?.creator_avatar_url || tiktokAccount.avatarURL,
+            creatorInfo: creatorInfo,
         }
-    });
+    }));
 
     return res.status(200).json({tiktok: tiktokAccounts});
 });

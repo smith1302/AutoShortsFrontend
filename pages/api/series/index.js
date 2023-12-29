@@ -1,8 +1,4 @@
 import ApiHandler from '~/src/Services/ApiHandler';
-import ScriptWriter from '~/src/Models/ScriptWriter';
-import ContentType from '~/src/Models/ContentType';
-import VideoScheduler from '~/src/Models/VideoScheduler';
-import Video from '~/src/Models/DBModels/Video';
 import Series from '~/src/Models/DBModels/Series';
 
 export default ApiHandler(true, async (req, res) => {

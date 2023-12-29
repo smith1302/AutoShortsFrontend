@@ -1,6 +1,7 @@
 import {useEffect, useState, useContext} from "react";
 import clsx from "clsx";
 import classes from "./index.module.scss";
+import paths from "~/src/paths";
 import Layout from "~/src/Components/Dashboard/Layout";
 import withAuthProtection from '~/src/Components/Common/withAuthProtection';
 import Button from '~/src/Components/Common/Button';
@@ -14,11 +15,10 @@ import SeriesService from '~/src/Services/SeriesService';
 
 import ContentSelector from "./ContentSelector";
 import VoiceSelector from "./VoiceSelector";
-import AccountSelector from "./AccountSelector";
+import AccountSelector from "~/src/Components/Dashboard/Series/AccountSelector";
 import SectionHeader from "./SectionHeader";
 
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 
 const allContentTypes = ContentType.all();
 const allVoices = Voice.all();
@@ -43,22 +43,20 @@ function SeriesCreate({ children }) {
         setSelectedVoice(voice);
     };
 
-    const handleAccountSelected = (accountOpenID) => {
-        setSelectedAccount(accountOpenID);
-    };
-
     const createSeries = async () => {
         
         setLoading(true);
         try {
-            await SeriesService.create({
+            const response = await SeriesService.create({
                 contentTypeID: contentType.id,
                 customPrompt: contentType.editable ? contentType.prompt : null,
                 voiceID: selectedVoice.id,
                 accountID: selectedAccount,
             });
+            const seriesID = response.seriesID;
+            window.location.href = paths.manageSeries(seriesID);
         } catch (e) {
-            console.log(e);
+            alert(e);
             setLoading(false);
         }
     }
@@ -74,31 +72,21 @@ function SeriesCreate({ children }) {
                 <ContentContainer className={classes.contentContainer}>
                     <div className={classes.header}>Create a Series</div>
                     <div className={classes.subheader}>Start your Faceless Video series.</div>
-                    {/* <div className={classes.grid}> */}
-                        <Paper className={classes.gridContent}>
-                            <SectionHeader step={1} title="Destination" subtitle="The account where your video series will be posted" customClass={clsx(classes.firstSectionHeader, classes.sectionHeader)} />
-                            <AccountSelector onAccountSelected={handleAccountSelected} />
+                    <Paper className={classes.gridContent}>
+                        <SectionHeader step={1} title="Destination" subtitle="The account where your video series will be posted" customClass={clsx(classes.firstSectionHeader, classes.sectionHeader)} />
+                        <AccountSelector selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} label={"Select Account"} disabled={loading} />
 
-                            {selectedAccount && (
-                                <>
-                                    <SectionHeader step={2} title="Content" subtitle="What will your video series be about?" customClass={classes.sectionHeader} />
-                                    <ContentSelector contentTypes={allContentTypes} onContentSelected={handleContentSelected} onContentDataChanged={handledContentDataChanged} />
-                                    <VoiceSelector voices={allVoices} onVoiceSelected={handleVoiceSelected} />
+                        {selectedAccount && (
+                            <>
+                                <SectionHeader step={2} title="Content" subtitle="What will your video series be about?" customClass={classes.sectionHeader} />
+                                <ContentSelector contentTypes={allContentTypes} onContentSelected={handleContentSelected} onContentDataChanged={handledContentDataChanged} disabled={loading} />
+                                <VoiceSelector voices={allVoices} onVoiceSelected={handleVoiceSelected} disabled={loading} />
 
-                                    <SectionHeader step={3} title="Create" subtitle="You will be able to preview your upcoming videos before posting" customClass={classes.sectionHeader} />
-                                    <Button className={classes.createButton} onClick={createSeries} loading={loading} disabled={!hasRequiredFields()}>Create Series +</Button>
-                                </>
-                            )}
-                        </Paper>
-                        {/* <div className={classes.gridItemRight}>
-                            <div className={classes.videoHeader}>Example</div>
-                            <div className={classes.videoSubheader}>This is an example of what a video may look like</div>
-                            <video className={classes.video} controls>
-                                <source src="https://autoshorts.ai/storage/videos/test2.mp4" type="video/mp4" />
-                                Your browser does not support HTML video.
-                            </video>
-                        </div> */}
-                    {/* </div> */}
+                                <SectionHeader step={3} title="Create" subtitle="You will be able to preview your upcoming videos before posting" customClass={classes.sectionHeader} />
+                                <Button className={classes.createButton} onClick={createSeries} loading={loading} disabled={!hasRequiredFields()}>Create Series +</Button>
+                            </>
+                        )}
+                    </Paper>
                 </ContentContainer>
             </div>
 		</Layout>

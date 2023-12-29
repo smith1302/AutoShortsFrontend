@@ -1,9 +1,9 @@
 import ApiHandler from '~/src/Services/ApiHandler';
-import ScriptWriter from '~/src/Models/ScriptWriter';
 import ContentType from '~/src/Models/ContentType';
 import VideoScheduler from '~/src/Models/VideoScheduler';
-import Video from '~/src/Models/DBModels/Video';
 import Series from '~/src/Models/DBModels/Series';
+import TikTokAuth from '~/src/Models/DBModels/TikTokAuth';
+import { PrivacyOptions, PrivacyOptionTitles, defaultPrivacyLevel } from '~/src/Enums/TikTokPrivacy';
 
 export default ApiHandler(true, async (req, res) => {
     if (req.method != 'POST') {
@@ -31,6 +31,10 @@ export default ApiHandler(true, async (req, res) => {
     const existingSeriesOfSameContentCount = existingSeriesOfSameContent ? existingSeriesOfSameContent.length : 0;
     const seriesTitle = `${contentType.name}${existingSeriesOfSameContentCount ? ` #${existingSeriesOfSameContentCount + 1}` : ''}`;
 
+    /* Get the creator's TikTok settings to load defaults */
+    const creatorInfo = await TikTokAuth.getCreatorInfo({openID: accountID});
+    const privacy = defaultPrivacyLevel(creatorInfo.creator_privacy_options);
+
     /* Create the series */
     const seriesID = await Series.create({
         title: seriesTitle,
@@ -39,6 +43,10 @@ export default ApiHandler(true, async (req, res) => {
         contentTypeID: contentTypeID,
         prompt: prompt,
         voiceID: voiceID,
+        duetDisabled: creatorInfo.duet_disabled,
+        stitchDisabled: creatorInfo.stitch_disabled,
+        commentDisabled: creatorInfo.comment_disabled,
+        privacy: privacy,
     });
 
     /* Create the first video */

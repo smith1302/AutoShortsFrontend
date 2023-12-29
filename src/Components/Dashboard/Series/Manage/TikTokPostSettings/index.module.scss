@@ -1,8 +1,9 @@
 @use "/styles/mixins";
 
-.root {
+div.root {
     font-family: 'Montserrat', sans-serif;
     color: var(--primary-text-color);
+    // padding: 30px;
 
     .sectionTitle {
         font-size: 0.8rem;
@@ -29,11 +30,15 @@
             font-size: 1.1rem;
         }
     }
+
+    .faded {
+        opacity: 0.8;
+    }
 }
 
 
 @media (max-width : 600px) {
-    .root {
-        padding: 60px 0 80px;
+    div.root {
+        // padding: 60px 0 80px;
     }
 }

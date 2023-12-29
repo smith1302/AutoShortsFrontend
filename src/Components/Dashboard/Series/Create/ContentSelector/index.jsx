@@ -13,7 +13,7 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 
-function ContentSelector({ children, onContentSelected, onContentDataChanged, contentTypes }) {
+function ContentSelector({ children, onContentSelected, onContentDataChanged, contentTypes, disabled }) {
     const [contentType, setContentType] = useState(null);
     const [openImportModal, setOpenImportModal] = useState(false);
     const [openSampleModal, setOpenSampleModal] = useState(false);
@@ -80,6 +80,7 @@ function ContentSelector({ children, onContentSelected, onContentDataChanged, co
                     }}
                     className={classes.selector}
                     displayEmpty
+                    disabled={disabled}
                 >
                     {contentTypes.map(option => {
                         return (
@@ -104,6 +105,7 @@ function ContentSelector({ children, onContentSelected, onContentDataChanged, co
                     fullWidth 
                     type="text"
                     focused
+                    disabled={disabled}
                 />     
             )}
             {showSample() && <a href='#' className={classes.showSample} onClick={()=>setOpenSampleModal(true)}>Show Sample</a>}

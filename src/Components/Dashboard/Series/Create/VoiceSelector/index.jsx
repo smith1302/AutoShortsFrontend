@@ -15,7 +15,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import Paper from '@mui/material/Paper';
 
-const VoiceSelector = ({ voices, onVoiceSelected }) => {
+const VoiceSelector = ({ voices, onVoiceSelected, disabled }) => {
     const [selectedVoice, setSelectedVoice] = useState(voices[0]);
     const [playingVoice, setPlayingVoice] = useState(null);
     const audioRef = useRef(new Audio());
@@ -67,6 +67,7 @@ const VoiceSelector = ({ voices, onVoiceSelected }) => {
                                 button
                                 className={clsx(classes.voiceItem, selectedVoice === voice ? classes.selected : '')}
                                 onClick={() => handleSelectVoice(voice)}
+                                disabled={disabled}
                             >
                                 <ListItemIcon>
                                     <IconButton className={classes.iconButton} onClick={(e) => {
