@@ -50,6 +50,10 @@
             width: 100%;
             color: var(--primary-text-color);
 
+            .publishStatus {
+                margin-bottom: 20px;
+            }
+
             .textField {
                 width: 100%;
                 .charsLeft {

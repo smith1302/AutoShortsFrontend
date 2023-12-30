@@ -1,9 +1,11 @@
 import TikTok from "~/src/Models/TikTok";
 import Video from "~/src/Models/DBModels/Video";
+import Series from "~/src/Models/DBModels/Series";
 import { defaultPrivacyLevel } from '~/src/Enums/TikTokPrivacy';
 
 export default class TikTokPostHandler {
 
+    /* Checks the status of all videos that are uploading */
     static async checkPostStatus() {
         const pendingVideos = await this.videosPendingPost();
         console.log(`# Checking video post status. ${pendingVideos.length} videos pending.`);
@@ -13,6 +15,7 @@ export default class TikTokPostHandler {
         }
     }
 
+    /* Uploads all videos that are yet to be uploaded */
     static async uploadPendingVideos() {
         const pendingVideos = await this.videosPendingUpload();
         for (const video of pendingVideos) {
@@ -36,6 +39,9 @@ export default class TikTokPostHandler {
             if (data.publicaly_available_post_id?.length) {
                 updateFields.publishID = data.publicaly_available_post_id[0];
             }
+            if (data.fail_reason) {
+                updateFields.publishFailReason = data.fail_reason;
+            }
             console.log(`=> Updating video post status. VideoID: ${video.id}`);
             console.log(updateFields);
             console.log(`------------------`);
@@ -50,8 +56,8 @@ export default class TikTokPostHandler {
     static async checkVideoStatus(video) {
         let data = null;
         try {
-            const tokenData = JSON.parse(video.other.tokenData);
             const tiktok = new TikTok();
+            const tokenData = JSON.parse(video.other.tokenData);
             data = await tiktok.checkPublishStatus(tokenData, video.publishID);
         } catch (error) {
             console.log(`Failed to check video status. VideoID: ${video.id}`);
@@ -74,9 +80,21 @@ export default class TikTokPostHandler {
                 disable_stitch: Boolean(video.other.stitchDisabled),
                 disable_comment: Boolean(video.other.commentDisabled)
             }
+            // Make sure our saved settings is up to date with the creator's settings, as they may have changed.
             postInfo = this.updatePostInfoWithCreatorInfo(postInfo, creatorInfo);
             const renderedVideoURL = video.getPublicRenderedUrl();
             publishID = await tiktok.postVideoFromUrl(tokenData, renderedVideoURL, postInfo);
+
+            // If the series privacy level has changed, update it
+            if (postInfo.privacy_level != video.other.privacy) {
+                await Series.update({
+                    privacy: postInfo.privacy_level,
+                    duetDisabled: postInfo.disable_duet,
+                    stitchDisabled: postInfo.disable_stitch,
+                    commentDisabled: postInfo.disable_comment,
+                    privacy: privacy,
+                }, video.seriesID);
+            }
         } catch (error) {
             console.log(`Failed to upload video. VideoID: ${video.id}`);
             console.log(error?.response?.data?.error || error.message);
@@ -92,8 +110,8 @@ export default class TikTokPostHandler {
     */
     static updatePostInfoWithCreatorInfo(postInfo, creatorInfo) {
         const newPostInfo = {...postInfo};
-        const availablePrivacyOptions = creatorInfo.privacy_level_options;
         // The selected privacy level is no longer available, so set it to a default.
+        const availablePrivacyOptions = creatorInfo.privacy_level_options;
         if (!availablePrivacyOptions.includes(postInfo.privacy_level)) {
             newPostInfo.privacy_level = defaultPrivacyLevel(availablePrivacyOptions);
         }

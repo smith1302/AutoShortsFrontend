@@ -2,13 +2,7 @@ import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
 import Series from "~/src/Models/DBModels/Series";
 import TikTokAuth from "~/src/Models/DBModels/TikTokAuth";
 import paths from '~/src/paths';
-
-const PUBLISH_STATUS = {
-    PROCESSING: 'PROCESSING_DOWNLOAD',
-    PUBLISHED: 'PUBLISH_COMPLETE',
-    FAILED: 'FAILED'
-}
-
+import PUBLISH_STATUS from '~/src/Enums/VideoPublishStatus';
 /*
     To trigger a new render:
     - Set jobID to null and pendingCreation to 1

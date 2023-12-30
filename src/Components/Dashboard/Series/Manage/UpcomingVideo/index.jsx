@@ -9,11 +9,12 @@ import withAuthProtection from '~/src/Components/Common/withAuthProtection';
 import Button from '~/src/Components/Common/Button';
 import AccountSelector from "~/src/Components/Dashboard/Series/AccountSelector";
 import TikTokPostSettings from "~/src/Components/Dashboard/Series/Manage/TikTokPostSettings";
+import PUBLISH_STATUS from '~/src/Enums/VideoPublishStatus';
 
 import useVideoSeriesState from "./useVideoSeriesState";
 
 import { TextField, InputAdornment, Snackbar } from "@mui/material";
-import Alert, { AlertProps } from '@mui/material/Alert';
+import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import UpcomingIcon from '@mui/icons-material/Upcoming';
@@ -115,8 +116,17 @@ const MainContent = ({series, video, creatorInfo, onSave}) => {
         }
     };
 
-    const disableVideoControls = loading || !videoAvailable;
+    const videoIsPosting = video && video.publishID;
+    const disableAllControls = videoIsPosting;
+    const disableVideoControls = loading || !videoAvailable || disableAllControls;
     const noChanges = !videoFieldsDidChange && !tikTokPostSettingsDidChange;
+    const disableSaveButton = (
+        noChanges 
+        || checkIfAnyErrors() 
+        || (!videoAvailable && videoFieldsDidChange) // Can't edit video while it is rendering
+        || !validTikTokSettings
+        || disableAllControls
+    );
 
     return (
         <div className={classes.mainContent}>
@@ -127,6 +137,7 @@ const MainContent = ({series, video, creatorInfo, onSave}) => {
             <div className={classes.flexRow}>
                 <Video video={video} videoAvailable={videoAvailable} />
                 <div className={classes.infoSection}>
+                    <PublishStatus video={video} />
                     <CustomTextField
                         title="Title"
                         value={editableFields.title}
@@ -170,7 +181,7 @@ const MainContent = ({series, video, creatorInfo, onSave}) => {
                             selectedAccount={selectedAccount}
                             setSelectedAccount={setSelectedAccount}
                             size={'small'}
-                            disabled={loading} />
+                            disabled={loading || disableAllControls} />
                     </div>
 
                     <TikTokPostSettings 
@@ -185,9 +196,9 @@ const MainContent = ({series, video, creatorInfo, onSave}) => {
                         creatorInfo={creatorInfo}
                         validTikTokSettings={validTikTokSettings}
                         setValidTikTokSettings={setValidTikTokSettings}
-                        disabled={loading} />
+                        disabled={loading || disableAllControls} />
 
-                    <Button onClick={handleSave} disabled={noChanges || checkIfAnyErrors() || (!videoAvailable && videoFieldsDidChange) || !validTikTokSettings} loading={loading} className={classes.saveButton}>
+                    <Button onClick={handleSave} disabled={disableSaveButton} loading={loading} className={classes.saveButton}>
                         Update Video
                     </Button>
                     {videoFieldsDidChange && <div className={classes.saveButtonNote}><InfoIcon /> Updating will queue your video for re-rendering</div>}
@@ -201,6 +212,29 @@ const MainContent = ({series, video, creatorInfo, onSave}) => {
             </div>
         </div>
     );
+}
+
+const PublishStatus = ({video}) => {
+    if (video.publishStatus === PUBLISH_STATUS.PUBLISHED) {
+        return (
+            <Alert severity="success" className={classes.publishStatus}>
+                This video has been posted and cannot be edited.
+            </Alert>
+        );
+    } else if (video.publishStatus === PUBLISH_STATUS.FAILED) {
+        return (
+            <Alert severity="error" className={classes.publishStatus}>
+                This video failed to post. {video.publishFailReason}
+            </Alert>
+        );
+    } else if (video.publishStatus === PUBLISH_STATUS.PROCESSING) {
+        return (
+            <Alert severity="info" className={classes.publishStatus}>
+                This video is currently being uploaded and cannot be edited.
+            </Alert>
+        );
+    }
+    return null;
 }
 
 const CustomTextField = ({ title, value, maxLength, ...props }) => {
