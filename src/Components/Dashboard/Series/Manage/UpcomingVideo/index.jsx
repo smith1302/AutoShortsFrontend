@@ -161,7 +161,7 @@ const MainContent = ({series, video, creatorInfo, onSave}) => {
 
                     <div className={classes.infoItem}>
                         <div className={classes.infoTitle}><EventIcon /> Scheduled to Post:</div>
-                        <div className={classes.scheduledTime}>{convertToReadableLocalTime(video.scheduledDate)} (UTC)</div>
+                        <div className={classes.scheduledTime}>{convertToReadableLocalTime(video.scheduledDate)} (Local)</div>
                     </div>
 
                     <div className={classes.infoItem}>

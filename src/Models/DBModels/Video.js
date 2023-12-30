@@ -1,4 +1,13 @@
 import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
+import Series from "~/src/Models/DBModels/Series";
+import TikTokAuth from "~/src/Models/DBModels/TikTokAuth";
+import paths from '~/src/paths';
+
+const PUBLISH_STATUS = {
+    PROCESSING: 'PROCESSING_DOWNLOAD',
+    PUBLISHED: 'PUBLISH_COMPLETE',
+    FAILED: 'FAILED'
+}
 
 /*
     To trigger a new render:
@@ -6,7 +15,7 @@ import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
 */
 export default class Video extends DatabaseModel {
 
-    constructor({ id, seriesID, userID, voiceID, title, script, caption, backgroundVideo, scheduledDate, postedDate, videoUrl, posted, created, updated, jobID, pendingCreation }) {
+    constructor({ id, seriesID, userID, voiceID, title, script, caption, backgroundVideo, scheduledDate, postedDate, videoUrl, posted, created, updated, jobID, pendingCreation, publishID, publishStatus, postID, ...other }) {
         super();
         this.id = id;
         this.seriesID = seriesID;
@@ -24,10 +33,18 @@ export default class Video extends DatabaseModel {
 		this.updated = updated;
 		this.jobID = jobID;
 		this.pendingCreation = pendingCreation;
+        this.publishID = publishID; // The ID of the TikTok upload job
+        this.publishStatus = publishStatus; // The status of the TikTok upload job
+        this.postID = postID; // The ID of the TikTok post
+        this.other = other;
     }
 
     requiresNewRender({title, caption, script}) {
         return this.title !== title || this.caption !== caption || this.script !== script;
+    }
+
+    getPublicRenderedUrl() {
+        return `${paths.renderedVideos}/${this.videoUrl}`;
     }
 
     /* ==== DatabaseModel overrides ==== */
@@ -52,5 +69,50 @@ export default class Video extends DatabaseModel {
         const queryValues = [id, seriesID, userID, voiceID, title, script, caption, backgroundVideo, scheduledDate];
         const response = await this.query(query, queryValues);
         return response.insertId;
+    }
+
+    /* Videos that need to be be sent to TikTok for upload */
+    static async pendingUploads() {
+        const query = `
+            SELECT ${this.tableName()}.*, 
+                    ${TikTokAuth.tableName()}.data AS tokenData,
+                    ${Series.tableName()}.privacy,
+                    ${Series.tableName()}.duetDisabled AS duetDisabled,
+                    ${Series.tableName()}.stitchDisabled AS stitchDisabled,
+                    ${Series.tableName()}.commentDisabled AS commentDisabled
+            FROM ${this.tableName()}
+            JOIN ${Series.tableName()} 
+                ON ${Series.tableName()}.id = ${this.tableName()}.seriesID
+            JOIN ${TikTokAuth.tableName()}
+                ON ${TikTokAuth.tableName()}.openID = ${Series.tableName()}.openID
+            WHERE NOW() >= ${this.tableName()}.scheduledDate
+                AND ${this.tableName()}.videoUrl IS NOT NULL
+                AND ${this.tableName()}.publishID IS NULL
+                AND ${this.tableName()}.publishStatus IS NULL
+                AND ${this.tableName()}.postID IS NULL
+            ORDER BY ${this.tableName()}.scheduledDate ASC
+        `;
+        return this.query(query);
+    }
+
+    /* Videos are in the process of being uploaded to TikTok */
+    static async pendingPostUpdates() {
+        const query = `
+            SELECT ${this.tableName()}.*, 
+                    ${TikTokAuth.tableName()}.data AS tokenData 
+            FROM ${this.tableName()}
+            JOIN ${Series.tableName()} 
+                ON ${Series.tableName()}.id = ${this.tableName()}.seriesID
+            JOIN ${TikTokAuth.tableName()}
+                ON ${TikTokAuth.tableName()}.openID = ${Series.tableName()}.openID
+            WHERE NOW() >= ${this.tableName()}.scheduledDate
+                AND ${this.tableName()}.publishID IS NOT NULL
+                AND (
+                    ${this.tableName()}.publishStatus = '${PUBLISH_STATUS.PROCESSING}'
+                    OR ${this.tableName()}.publishStatus IS NULL
+                )
+            ORDER BY ${this.tableName()}.scheduledDate ASC
+        `;
+        return this.query(query);
     }
 }

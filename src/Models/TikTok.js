@@ -111,6 +111,41 @@ export default class TikTok {
         return response.data;
     }
 
+    async postVideoFromUrl(tokenData, videoUrl, postInfo = {}) {
+        // https://developers.tiktok.com/doc/content-posting-api-get-started/
+        const endpoint = 'https://open.tiktokapis.com/v2/post/publish/video/init/';
+        const data = {
+            post_info: {...postInfo},
+            source_info: {
+                source: "PULL_FROM_URL",
+                video_url: videoUrl,
+            }
+        };
+
+        try {
+            const response = await this.makeApiCall(tokenData, endpoint, 'POST', data);
+            if (!response.data) {
+                throw new Error('Failed to initiate video post publishing');
+            }
+            return response.data.publish_id;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async checkPublishStatus(tokenData, publishID) {
+        // https://developers.tiktok.com/doc/content-posting-api-reference-get-video-status
+        const endpoint = 'https://open.tiktokapis.com/v2/post/publish/status/fetch/';
+    
+        const data = {publish_id: publishID};
+        const response = await this.makeApiCall(tokenData, endpoint, 'POST', data);
+        if (!response.data) {
+            throw new Error('Failed to fetch publish status');
+        }
+        return response.data;
+    }
+    
+
     /* API Handling */
 
     async makeApiCall(tokenData, endpoint, method = 'GET', data = null) {
@@ -131,7 +166,6 @@ export default class TikTok {
             const response = await axios(config);
             return response.data;
         } catch (error) {
-            // Handle error
             throw error;
         }
     }

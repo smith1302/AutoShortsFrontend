@@ -67,10 +67,7 @@ export default class TikTokAuth extends DatabaseModel {
     static async getCreatorInfo({openID}) {
         const cacheKey = `tiktok-creatorinfo-${openID}`;
         const cachedResult = cache.get(cacheKey);
-        if (cachedResult) {
-            console.log(`Cache hit for ${cacheKey}`);
-            return cachedResult;
-        }
+        if (cachedResult) return cachedResult;
         
         // Get the connected TikTok account's token data
         const tiktokAuth = await TikTokAuth.findOne({where: {openID: openID}});
