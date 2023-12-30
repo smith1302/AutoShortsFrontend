@@ -7,6 +7,14 @@ export default class VideoScheduler {
     constructor() {
     }
 
+    async batchScheduleVideos({limit = 1}) {
+        const pendingSeries = await Series.seriesThatNeedVideos({limit});
+        for (const series of pendingSeries) {
+            console.log(`Scheduling video for series: ${series.id}`);
+            await this.scheduleNextVideoInSeries({seriesID: series.id});
+        }
+    }
+
     async scheduleNextVideoInSeries({seriesID}) {
         const series = await Series.findOne({where: {id: seriesID}});
         const scheduledDate = this.toMysqlFormat(this.getNextPostDate());
@@ -34,17 +42,22 @@ export default class VideoScheduler {
         const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const postDays = { 'Monday': 1, 'Wednesday': 3, 'Friday': 5 };
     
-        // If current time is after 12 PM UTC, choose the next date
+        // If current time is 11 AM UTC or later, choose the next date
         let dayOffset = 0;
         if (now.getUTCHours() >= 11) {
             dayOffset = 1;
         }
+    
         // Find the next post day
         let daysToAdd = 0;
-        let currentDayIndex = now.getUTCDay() + dayOffset;
-        while (!postDays[daysOfWeek[(currentDayIndex + daysToAdd) % 7]]) {
+        let currentDayIndex = now.getUTCDay();
+        do {
+            currentDayIndex = (currentDayIndex + dayOffset + daysToAdd) % 7;
+            if (postDays[daysOfWeek[currentDayIndex]]) {
+                break;
+            }
             daysToAdd++;
-        }
+        } while (true);
     
         // Calculate the next post date
         const nextPostDate = new Date(now);

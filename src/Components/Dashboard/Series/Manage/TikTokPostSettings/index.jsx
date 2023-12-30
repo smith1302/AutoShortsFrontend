@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, Fragment } from "react";
 import clsx from "clsx";
 import classes from "./index.module.scss";
 
-import { PrivacyOptions, PrivacyOptionTitles } from '~/src/Enums/TikTokPrivacy';
+import { PrivacyOptions, PrivacyOptionTitles, defaultPrivacyLevel } from '~/src/Enums/TikTokPrivacy';
 
 import { Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Switch, Typography, Stack, Tooltip } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
@@ -59,13 +59,13 @@ const TikTokPostSettings = ({ privacy, setPrivacy, allowComment, setAllowComment
             />
 
             <InteractionAbilities
-                allowComment={allowComment}
+                allowComment={allowComment && !creatorInfo.comment_disabled}
                 allowCommentDisabled={creatorInfo.comment_disabled || disabled}
                 setAllowComment={setAllowComment}
-                allowDuet={allowDuet}
+                allowDuet={allowDuet && !creatorInfo.duet_disabled}
                 allowDuetDisabled={creatorInfo.duet_disabled || disabled}
                 setAllowDuet={setAllowDuet}
-                allowStitch={allowStitch}
+                allowStitch={allowStitch && !creatorInfo.stitch_disabled}
                 allowStitchDisabled={creatorInfo.stitch_disabled || disabled}
                 setAllowStitch={setAllowStitch}
             />
@@ -88,6 +88,10 @@ const TikTokPostSettings = ({ privacy, setPrivacy, allowComment, setAllowComment
 
 const PrivacySelector = ({ privacy, setPrivacy, commercialContent, brandedContent, privacyOptions, disabled }) => {
     const hasPublic = privacyOptions.includes(PrivacyOptions.PUBLIC);
+    // The series privacy level is no longer available, so set it to a default.
+    if (!privacyOptions.includes(privacy)) {
+        privacy = defaultPrivacyLevel(privacyOptions);
+    }
     return (
         <Stack direction="column" sx={{ marginBottom: 2 }}>
             <div className={classes.sectionTitle} style={{ marginBottom: 7 }}>
@@ -136,21 +140,21 @@ const InteractionAbilities = ({
 
                 <Tooltip title="Your TikTok settings currently do not allow comments" disableHoverListener={!allowCommentDisabled} arrow>
                 <FormControlLabel
-                    control={<Checkbox checked={allowComment && !allowCommentDisabled} onChange={(e) => setAllowComment(e.target.checked)} name="allowComment" disabled={allowCommentDisabled} />}
+                    control={<Checkbox checked={allowComment} onChange={(e) => setAllowComment(e.target.checked)} name="allowComment" disabled={allowCommentDisabled} />}
                     label="Comment"
                 />
                 </Tooltip>
 
                 <Tooltip title="Your TikTok settings currently do not allow duets" disableHoverListener={!allowDuetDisabled} arrow>
                 <FormControlLabel
-                    control={<Checkbox checked={allowDuet && !allowDuetDisabled} onChange={(e) => setAllowDuet(e.target.checked)} name="allowDuet" disabled={allowDuetDisabled} />}
+                    control={<Checkbox checked={allowDuet} onChange={(e) => setAllowDuet(e.target.checked)} name="allowDuet" disabled={allowDuetDisabled} />}
                     label="Duet"
                 />
                 </Tooltip>
 
                 <Tooltip title="Your TikTok settings currently do not allow stitching" disableHoverListener={!allowStitchDisabled} arrow>
                 <FormControlLabel
-                    control={<Checkbox checked={allowStitch && !allowStitchDisabled} onChange={(e) => setAllowStitch(e.target.checked)} name="allowStitch" disabled={allowStitchDisabled} />}
+                    control={<Checkbox checked={allowStitch} onChange={(e) => setAllowStitch(e.target.checked)} name="allowStitch" disabled={allowStitchDisabled} />}
                     label="Stitch"
                 />
                 </Tooltip>

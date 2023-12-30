@@ -4,4 +4,6 @@ const PUBLISH_STATUS = {
     FAILED: 'FAILED'
 }
 
-export default PUBLISH_STATUS;
+export { 
+    PUBLISH_STATUS
+}

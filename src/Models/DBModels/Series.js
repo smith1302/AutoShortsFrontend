@@ -1,4 +1,5 @@
 import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
+import Video from "~/src/Models/DBModels/Video";
 
 export default class Series extends DatabaseModel {
 
@@ -40,5 +41,27 @@ export default class Series extends DatabaseModel {
         const queryValues = [title, userID, openID, contentTypeID, prompt, voiceID, duetDisabled, stitchDisabled, commentDisabled, privacy];
         const response = await this.query(query, queryValues);
         return response.insertId;
+    }
+
+    static async seriesThatNeedVideos({ limit = 10 }) {
+        // Get all series that do not have a scheduled video
+        // To do this we get all videos are not published and don't include them (left join)
+        // We will ignore new series (created < 1 hour ago) since they're first video is probably still processing
+        const series = this.tableName();
+        const video = Video.tableName();
+        const query = `
+            SELECT ${series}.*
+            FROM ${series}
+            LEFT JOIN ${video}
+                ON ${series}.id = ${video}.seriesID
+                AND (
+                    ${video}.publishStatus != 'PUBLISH_COMPLETE' 
+                    OR ${video}.publishStatus IS NULL
+                )
+            WHERE ${video}.seriesID IS NULL
+                AND ${series}.created < NOW() - INTERVAL 1 HOUR
+            LIMIT ?
+        `;
+        return await this.query(query, [limit]);
     }
 }

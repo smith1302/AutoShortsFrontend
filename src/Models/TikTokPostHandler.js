@@ -2,6 +2,7 @@ import TikTok from "~/src/Models/TikTok";
 import Video from "~/src/Models/DBModels/Video";
 import Series from "~/src/Models/DBModels/Series";
 import { defaultPrivacyLevel } from '~/src/Enums/TikTokPrivacy';
+import { PUBLISH_STATUS } from '~/src/Enums/VideoPublishStatus';
 
 export default class TikTokPostHandler {
 

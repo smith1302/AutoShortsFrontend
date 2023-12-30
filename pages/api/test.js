@@ -3,16 +3,15 @@ import PayPalService from '~/src/Services/PayPalService';
 import SendGrid from '~/src/Models/SendGrid';
 import PexelsDownloader from '~/src/Models/PexelsDownloader';
 import TikTokPostHandler from '~/src/Models/TikTokPostHandler';
-import BackgroundVideo from '~/src/Models/DBModels/BackgroundVideo';
+import VideoScheduler from '~/src/Models/VideoScheduler';
 
 export default ApiHandler(false, async (req, res) => {
     if (req.method != 'GET') {
         return res.status(405).end(`Method ${req.method} Not Allowed`)
     }
 
-    // await TikTokPostHandler.uploadPendingVideos();
-    // await new Promise(resolve => setTimeout(resolve, 1000));
-    // await TikTokPostHandler.checkPostStatus();
+    // const videoScheduler = new VideoScheduler();
+    // await videoScheduler.batchScheduleVideos({limit: 1});
 
     // const downloader = new PexelsDownloader();
     // const searchTerms = [

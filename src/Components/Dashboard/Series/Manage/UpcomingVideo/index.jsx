@@ -9,7 +9,7 @@ import withAuthProtection from '~/src/Components/Common/withAuthProtection';
 import Button from '~/src/Components/Common/Button';
 import AccountSelector from "~/src/Components/Dashboard/Series/AccountSelector";
 import TikTokPostSettings from "~/src/Components/Dashboard/Series/Manage/TikTokPostSettings";
-import PUBLISH_STATUS from '~/src/Enums/VideoPublishStatus';
+import { PUBLISH_STATUS } from '~/src/Enums/VideoPublishStatus';
 
 import useVideoSeriesState from "./useVideoSeriesState";
 
