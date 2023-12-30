@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 import BackgroundVideo from './DBModels/BackgroundVideo';
+import Embeddings from '~/src/Models/Embeddings';
 
 dotenv.config();
 
@@ -153,7 +154,10 @@ export default class PexelsDownloader {
     }
 
     async saveToDatabase(filename, description) {
-        await BackgroundVideo.create({ filename, description });
+        const embeddingHandler = new Embeddings();
+        let embedding = await embeddingHandler.getEmbedding(description);
+        embedding = JSON.stringify(embedding);
+        await BackgroundVideo.create({ filename, description, embedding });
     }
 }
 
