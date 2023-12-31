@@ -264,7 +264,7 @@ const CustomTextField = ({ title, value, maxLength, ...props }) => {
 };
 
 const Video = ({video, videoAvailable}) => {
-    if (video && videoAvailable && false) {
+    if (video && videoAvailable) {
         return (
             <div className={classes.videoContainer}>
                 <video className={classes.video} controls controlsList="nodownload">
