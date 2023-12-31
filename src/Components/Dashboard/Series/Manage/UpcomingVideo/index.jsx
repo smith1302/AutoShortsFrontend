@@ -169,6 +169,9 @@ const MainContent = ({series, video, creatorInfo, onSave}) => {
                         maxLength={maxLengths.script}
                         disabled={disableVideoControls}
                     />
+                    <div className={classes.scriptNote}>
+                        <b>Note:</b> Always verify AI generated scripts for accuracy.
+                    </div>
 
                     <div className={classes.infoItem}>
                         <div className={classes.infoTitle}><EventIcon /> Scheduled to Post:</div>
@@ -261,7 +264,7 @@ const CustomTextField = ({ title, value, maxLength, ...props }) => {
 };
 
 const Video = ({video, videoAvailable}) => {
-    if (video && videoAvailable) {
+    if (video && videoAvailable && false) {
         return (
             <div className={classes.videoContainer}>
                 <video className={classes.video} controls controlsList="nodownload">

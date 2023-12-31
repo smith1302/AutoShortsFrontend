@@ -66,6 +66,13 @@
                     color: var(--primary-text-color);
                 }
             }
+
+            .scriptNote {
+                opacity: 0.8;
+                font-size: 0.8rem;
+                margin-bottom: 25px;
+                margin-top: -5px;
+            }
         
             .infoItem {
                 margin-bottom: 17px;
@@ -109,7 +116,8 @@
         .emptyVideoContainer {
             width: 250px;
             height: 444px;
-            background: #a9acc2;
+            // background: #a9acc2;
+            background: var(--background-gradient);
             border-radius: 5px;
             color: white;
             font-size: 0.9rem;

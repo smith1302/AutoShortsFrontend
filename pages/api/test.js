@@ -15,16 +15,8 @@ export default ApiHandler(false, async (req, res) => {
 
     // const downloader = new PexelsDownloader();
     // const searchTerms = [
-    //     "Rainforest",
-    //     "Skyline",
-    //     "Workout",
-    //     "Desert",
-    //     "Drone",
-    //     "Baking",
-    //     "Theatre",
-    //     "Basketball",
-    //     "Aquarium",
-    //     "Parade"
+    //     "Fantasy",
+    //     "Whimsical"
     // ];
     // for (const term of searchTerms) {
     //     await downloader.searchAndDownload(term);

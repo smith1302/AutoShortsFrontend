@@ -19,7 +19,7 @@ export default class PexelsDownloader {
     async searchAndDownload(keyword) {
         try {
             const videos = await this.searchVideos(keyword);
-            const maxVideos = Math.min(2, videos.length);
+            const maxVideos = Math.min(3, videos.length);
             for (let i = 0; i < maxVideos; i++) {
                 const video = videos[i];
                 console.log(`Selected video: `, video.url);

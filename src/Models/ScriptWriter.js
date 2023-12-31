@@ -30,10 +30,12 @@ export default class ScriptWriter {
     async writeScript({basePrompt}) {
         let content;
         try {
-            const prompt = basePrompt.substring(0, 2000);
+            const prompt = `${basePrompt.substring(0, 2000)}
+            
+            It must be 80 to 100 words`;
 
             const response = await this.openai.chat.completions.create({
-                model: 'gpt-3.5-turbo',
+                model: 'gpt-3.5-turbo-1106',
                 messages: [
                     {
                         role: 'system',
@@ -41,7 +43,7 @@ export default class ScriptWriter {
 
                         Your output must be in JSON format that includes the following keys: "content", "title", "caption".
                         
-                        - Content: The text that you generate based on the user's message. It must be 100 words or less. Never include hashtags in your content.
+                        - Content: The text that you generate based on the user's message. It must be 80 to 100 words. Never include hashtags in your content.
                         
                         - Title: A title suitable for a video based off your content. It should be 10 words or less.
                         
@@ -65,6 +67,9 @@ export default class ScriptWriter {
             // console.log(content);
 
             const jsonContent = JSON.parse(content);
+            jsonContent.script = jsonContent.content;
+            // Remove json.Content
+            delete jsonContent.content;
             // Remove any hashtags from jsonContent.script, just incase
             jsonContent.script = jsonContent.script.replace(/#[^\s]+/g, "");
             // Remove beginning and trailing whitespace from jsonContent.script
@@ -75,7 +80,7 @@ export default class ScriptWriter {
             return jsonContent
         } catch (error) {
             console.error('Error getting ScriptWriter:', error);
-            console.log("Conent:");
+            console.log("Content:");
             console.log(content);
             return null;
         }
