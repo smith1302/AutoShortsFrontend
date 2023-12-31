@@ -5,6 +5,7 @@ import classes from "./index.module.scss";
 import TikTokOAuthService from "~/src/Services/TikTokOAuthService";
 import UserService from "~/src/Services/UserService";
 
+import CircularProgress from '@mui/material/CircularProgress';
 import InputLabel from '@mui/material/InputLabel';
 import {MenuItem, Select, Avatar} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
@@ -13,13 +14,16 @@ const linkAccount = {openID: -1, displayName: 'Link a TikTok Account +', avatarU
 
 const AccountSelector = ({selectedAccount = null, setSelectedAccount, size = null, label = null, disabled}) => {
     const [accounts, setAccounts] = useState([linkAccount]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             const accounts = await UserService.getAccountList();
             if (accounts && accounts.tiktok) {
                 setAccounts([...accounts.tiktok, linkAccount]);
             }
+            setLoading(false);
         })();
     }, []);
 
@@ -57,6 +61,12 @@ const AccountSelector = ({selectedAccount = null, setSelectedAccount, size = nul
                     displayEmpty
                     disabled={disabled}
                 >
+                    {loading && (
+                        <MenuItem value={"loading"} disabled>
+                            <CircularProgress size={avatarSize * 0.75} style={{ marginRight: 12 }}/>
+                            <div>Loading Accounts</div>
+                        </MenuItem>
+                    )}
                     {accounts.map(account => (
                         <MenuItem key={account.openID} value={account.openID}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>

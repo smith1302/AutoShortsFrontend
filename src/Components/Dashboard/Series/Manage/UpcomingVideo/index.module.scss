@@ -35,13 +35,17 @@
         .subtitle {
             font-size: 0.95rem;
             font-weight: 500;
-            margin-bottom: 40px;
             opacity: 0.8;
+            border-bottom: 1px solid #1f317c26;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
         }
 
         .video {
             width: 250px;
             border-radius: 5px;
+            padding: 8px;
+            background: var(--background-gradient);
         }
         .infoSection {
             display: flex;

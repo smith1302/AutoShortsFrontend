@@ -30,30 +30,22 @@ export default class ScriptWriter {
     async writeScript({basePrompt}) {
         let content;
         try {
-            const prompt = `# Objective: Write a comprehensive piece of text on the video theme.
-
-            # Content Requirements:
-            
-            Script: Duration should be approximately 30-45 seconds when read aloud. The text should be formatted to be read aloud, so do not include hashtags, emojis, or other text that would not be spoken. The text should include a strong hook and should be engaging and casual, as if you were speaking to a friend.
-            Caption: Create a concise caption for the video, ideally one sentence. Include 3-5 relevant hashtags to enhance social media engagement.
-            Title: Devise a compelling title for the video, limited to 10 words or fewer.
-            
-            # Video Theme: ${basePrompt.substring(0, 2000)}
-            
-            # OUTPUT FORMAT:
-            Provide your response in JSON format as shown below. ONLY OUTPUT THE JSON. DO NOT INCLUDE ANYTHING ELSE IN YOUR RESPONSE.
-            {
-                "title": "...",
-                "script": "...",
-                "caption": "..."
-            }`
+            const prompt = basePrompt.substring(0, 2000);
 
             const response = await this.openai.chat.completions.create({
                 model: 'gpt-3.5-turbo',
                 messages: [
                     {
                         role: 'system',
-                        content: 'You write short content that is read aloud in a video. It should be comprehensive, engaging, and casual.'
+                        content: `Your text will be used as narration over a video background on social media platforms. So, you should include strong hooks to stop viewers from scrolling.
+
+                        Your output must be in JSON format that includes the following keys: "content", "title", "caption".
+                        
+                        - Content: The text that you generate based on the user's message. It must be 100 words or less. Never include hashtags in your content.
+                        
+                        - Title: A title suitable for a video based off your content. It should be 10 words or less.
+                        
+                        - Caption: A social media caption based off your content. You should include 3 to 5 relevant hashtags.`
                     },
                     {
                         role: 'user',
@@ -61,7 +53,8 @@ export default class ScriptWriter {
                     }
                 ],
                 max_tokens: 3000,
-                temperature: 1
+                temperature: 1,
+                response_format: { type: "json_object" },
             });
 
             content = response.choices[0].message.content;
