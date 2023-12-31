@@ -27,6 +27,8 @@ export default class ContentType {
         INTERESTING_HISTORY: 'interesting history',
         FUN_FACTS: 'fun facts',
         JOKES: 'long form jokes',
+        LIFE_PRO_TIP: 'life pro tip',
+        ELI5: 'eli5',
         SHOPIFY_PRODUCT_PROMOTION: 'shopify product promotion',
         CUSTOM: 'custom'
     }
@@ -90,6 +92,20 @@ export default class ContentType {
                 name: 'Long Form Jokes', 
                 prompt: 'Write a long-form joke in the form of a short story.',
                 sample: `Once upon a time in a small town, there was a talented juggler named Jack who could juggle anything. One day, a rich man heard about Jack's juggling skills and decided to test him. He threw a dozen eggs at Jack, challenging him to juggle them without breaking any. Jack accepted the challenge and flawlessly juggled the eggs, impressing everyone. But just as Jack caught the final egg, he accidentally dropped it. The rich man started laughing and said, "Well, Jack, looks like you couldn't handle the pressure!"`
+            }),
+
+            new ContentType({
+                id: this.ID.LIFE_PRO_TIP, 
+                name: 'Life Pro Tips', 
+                prompt: 'Give a random useful life pro-tip. Fill your 100 words with an explanation of the tip.',
+                sample: `Did you know that placing a wooden spoon over a pot can prevent it from boiling over? When water boils, the heat causes bubbles to form, and before you know it, there's a mess on your stovetop. But by simply resting a wooden spoon across the top of the pot, the bubbles are disrupted, preventing the boiling water from spilling over. The reason behind this handy trick is that the spoon's wooden handle doesn't conduct heat like metal does, so it cools the bubbles and keeps them from rising. Keep this pro-tip in mind for hassle-free cooking!`
+            }),
+
+            new ContentType({
+                id: this.ID.LIFE_PRO_TIP, 
+                name: 'ELI5', 
+                prompt: 'Give a random ELI5 explanation of a random topic. Do not state the topic, simply begin with the explanation. The title can include the "ELI5: question".',
+                sample: `Imagine you have a magic box that can send messages instantly to another magic box across the world. But instead of typing out the entire message, you can break it down into tiny pieces of information called packets. Each packet contains a small part of the message and has an address label on it. These packets then travel through a network of wires and routers to reach their destination. Once they arrive, the receiving magic box puts all the packets together in the correct order to reconstruct the original message. This is how information travels on the internet!`
             }),
 
             // new ContentType({
