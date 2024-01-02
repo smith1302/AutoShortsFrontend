@@ -40,7 +40,9 @@ export default class VideoScheduler {
         const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         let postDays = [ 'Wednesday' ];
         let postTimes = [12]; // Post at 12 PM UTC
-        if (frequency == 3) { // 3 days a week
+        if (frequency == 1) {
+            // Defaults are fine
+        } if (frequency == 3) { // 3 days a week
             postDays = [ 'Monday', 'Wednesday', 'Friday' ];
         } else if (frequency == 5) { // 5 days a week
             postDays = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday' ];
