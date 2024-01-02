@@ -3,15 +3,15 @@ import Video from "~/src/Models/DBModels/Video";
 import Series from "~/src/Models/DBModels/Series";
 import { defaultPrivacyLevel } from '~/src/Enums/TikTokPrivacy';
 import { PUBLISH_STATUS } from '~/src/Enums/VideoPublishStatus';
+import { toMysqlDateFormat } from '~/src/Utils/time';
 
 export default class TikTokPostHandler {
 
     /* Checks the status of all videos that are uploading */
     static async checkPostStatus() {
         const pendingVideos = await this.videosPendingPost();
-        console.log(`# Checking video post status. ${pendingVideos.length} videos pending.`);
+        console.log(`# Checking video post statuses | ${pendingVideos.length} videos pending.`);
         for (const video of pendingVideos) {
-            console.log(` Checking video post status. VideoID: ${video.id}`);
             await this.updateVideoPostStatus(video);
         }
     }
@@ -19,9 +19,10 @@ export default class TikTokPostHandler {
     /* Uploads all videos that are yet to be uploaded */
     static async uploadPendingVideos() {
         const pendingVideos = await this.videosPendingUpload();
+        console.log(`# Uploading Videos | ${pendingVideos.length} videos pending.`);
         for (const video of pendingVideos) {
             const publishID = await this.uploadVideo(video);
-            console.log(`Video uploaded with publishID: ${publishID}. VideoID: ${video.id}`);
+            console.log(`=> Video uploaded with publishID: ${publishID}. VideoID: ${video.id}`);
             await Video.update({publishID}, video.id);
             break;
         }
@@ -43,7 +44,11 @@ export default class TikTokPostHandler {
             if (data.fail_reason) {
                 updateFields.publishFailReason = data.fail_reason;
             }
-            console.log(`=> Updating video post status. VideoID: ${video.id}`);
+            if (data.status == PUBLISH_STATUS.PUBLISHED) {
+                const nowUTC = toMysqlDateFormat(new Date());
+                updateFields.postedDate = nowUTC;
+            }
+            console.log(`=> Updating video [${video.id}] post status to ${data.status}`);
             console.log(updateFields);
             console.log(`------------------`);
             await Video.update(updateFields, video.id);

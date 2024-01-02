@@ -41,13 +41,26 @@ async function handleGET(req, res) {
     if (!seriesID) throw new Error(`Series ID is required.`);
     
     const series = await Series.findOne({where: {userID: userID, id: seriesID}});
-    // Grab the upcoming video
-    const video = await Video.findOne({where: {userID: userID, seriesID: seriesID}, orderBy: {fieldName: 'created', direction: 'DESC'}});
+    
+    const videos = await Video.find({where: {userID: userID, seriesID: seriesID}, orderBy: {fieldName: 'created', direction: 'DESC'}});
+
+    let upcomingVideo = null;
+    let videoHistory = [];
+    if (videos.length > 0) {
+        upcomingVideo = videos[0];
+        videoHistory = videos.map(video => {
+            return {
+                id: video.id,
+                title: video.title,
+                postedDate: video.postedDate,
+            }
+        })
+    }
 
     // Get the updated TikTok creator info
     const creatorInfo = await TikTokAuth.getCreatorInfo({openID: series.openID});
 
-    return res.status(200).json({series, video, creatorInfo});
+    return res.status(200).json({series, upcomingVideo, videoHistory, creatorInfo});
 }
 
 async function handlePUT(req, res) {

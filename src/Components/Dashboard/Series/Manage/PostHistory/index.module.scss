@@ -1,0 +1,62 @@
+@use "/styles/mixins";
+
+div.root {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-text-color);
+
+    .heading {
+        margin-top: 50px;
+    }
+    
+    .selector {
+        .listItem {
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+
+            .listItemText {
+                font-family: 'Montserrat', sans-serif;
+                color: var(--primary-text-color);
+
+                span {
+                    font-family: 'Montserrat', sans-serif;
+                    color: var(--primary-text-color);
+                }
+
+                p {
+                    font-family: 'Montserrat', sans-serif;
+                    color: var(--primary-text-color);
+                    opacity: 0.6;
+                }
+            }
+
+            .iconButton {
+                color: var(--single-brand-color);
+            }
+
+            .checkIcon {
+                color: var(--single-brand-color);
+            }
+
+            &.selected {
+                background-color: #4f73a914;
+
+                .MuiListItemText-primary {
+                    font-weight: bold;
+                }
+            }
+
+            .MuiIconButton-root {
+                color: var(--single-brand-color);
+            }
+        }
+    }
+}
+
+
+@media (max-width : 600px) {
+    .root {
+        // padding: 60px 0 80px;
+    }
+}

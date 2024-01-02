@@ -30,8 +30,13 @@ const dateToTime = (date) => {
     return date.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric' }); // 08:28:01
 }
 
+const toMysqlDateFormat = (date) => {
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+}
+
 export {
     timeStringToXAgo,
     secondsAgoToString,
-    dateToTime
+    dateToTime,
+    toMysqlDateFormat
 }

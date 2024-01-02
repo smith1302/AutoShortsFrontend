@@ -1,5 +1,5 @@
+import { toMysqlDateFormat } from '~/src/Utils/time';
 import ScriptWriter from '~/src/Models/ScriptWriter';
-import ContentType from '~/src/Models/ContentType';
 import Video from '~/src/Models/DBModels/Video';
 import Series from '~/src/Models/DBModels/Series';
 import User from '~/src/Models/DBModels/User';
@@ -11,7 +11,7 @@ export default class VideoScheduler {
     async batchScheduleVideos({limit = 1}) {
         const pendingSeries = await Series.seriesThatNeedVideos({limit});
         for (const series of pendingSeries) {
-            console.log(`Scheduling video for series: ${series.id}`);
+            console.log(`# Scheduling video for series: ${series.id}`);
             await this.scheduleNextVideoInSeries({seriesID: series.id});
         }
     }
@@ -19,7 +19,7 @@ export default class VideoScheduler {
     async scheduleNextVideoInSeries({seriesID}) {
         const series = await Series.findOne({where: {id: seriesID}});
         const plan = await User.getPlan(series.userID);
-        const scheduledDate = this.toMysqlFormat(this.getNextPostDate({plan}));
+        const scheduledDate = toMysqlDateFormat(this.getNextPostDate({frequency: plan.frequency}));
         const scriptWriter = new ScriptWriter();
         const script = await scriptWriter.writeScript({basePrompt: series.prompt});
         const videoID = await Video.create({
@@ -33,10 +33,6 @@ export default class VideoScheduler {
             scheduledDate: scheduledDate
         });
         return {videoID, videoTitle: script.title};
-    }
-
-    toMysqlFormat(date) {
-        return date.toISOString().slice(0, 19).replace('T', ' ');
     }
     
     getNextPostDate({frequency}) {

@@ -14,10 +14,12 @@ import ContentContainer from "~/src/Components/Common/ContentContainer";
 import PageHeading from "~/src/Components/Dashboard/PageHeading";
 
 import UpcomingVideo from "./UpcomingVideo";
+import PostHistory from "./PostHistory";
 
 const ManageSeries = ({id}) => {
     const [series, setSeries] = useState(null);
     const [video, setVideo] = useState(null);
+    const [videoHistory, setVideoHistory] = useState([]); // [{id, title, date}
     const [creatorInfo, setCreatorInfo] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -30,7 +32,8 @@ const ManageSeries = ({id}) => {
             setLoading(true);
             const data = await SeriesService.get({seriesID: id});
             setSeries(data.series);
-            setVideo(data.video);
+            setVideo(data.upcomingVideo);
+            setVideoHistory(data.videoHistory);
             setCreatorInfo(data.creatorInfo);
         } catch (err) {
             alert(err);
@@ -62,6 +65,8 @@ const ManageSeries = ({id}) => {
                         video={video} 
                         creatorInfo={creatorInfo}
                         onVideoUpdated={fetchSeries} />
+
+                    <PostHistory videoHistory={videoHistory} />
 
                 </ContentContainer>
             </div>

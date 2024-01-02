@@ -26,7 +26,7 @@ const Series = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const series = [];//await SeriesService.getAll();
+            const series = await SeriesService.getAll();
             setSeries(series);
             setLoading(false);
         })();
