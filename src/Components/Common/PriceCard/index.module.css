@@ -58,6 +58,18 @@
     opacity: 0.7;
 }
 
+.perSeries {
+    font-size: 1em;
+    color: var(--primary-text-color);
+    opacity: 0.7;
+    margin-top: -8px;
+    font-weight: 500;
+
+    &.invisible {
+        visibility: hidden;
+    }
+}
+
 .features {
     flex: 1;
     color: var(--primary-text-color);

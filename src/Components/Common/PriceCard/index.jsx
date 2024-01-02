@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 const formatNum = (num) => parseFloat(num).toLocaleString({minimumFractionDigits: 6});
 
-export default function Card({ children, className, plan, planID, price, interval, popular, buttonText, trackedStores, topProducts, topStores, onClick, loading, disabled, extraButton, tooltipText }) {
+export default function Card({ children, className, plan, planID, price, interval, popular, buttonText, frequency, onClick, loading, disabled, extraButton, tooltipText }) {
 
     const isDisabled = disabled || loading;
     const isFreePlan = price == 0;
@@ -27,6 +27,13 @@ export default function Card({ children, className, plan, planID, price, interva
         normalizedPrice = Math.ceil(price / 12);
     }
 
+    const postsPerWeekText = (frequency) => {
+        if (frequency == 0) return "Unlimited";
+        if (frequency < 7) return (<span>Posts <b>{frequency} time{frequency > 1 ? 's' : ''} a week</b></span>);
+        if (frequency == 7) return (<span>Posts <b>once a day</b></span>);
+        if (frequency == 14) return (<span>Posts <b>twice a day</b></span>);
+    }
+
     return (
         <div className={clsx(classes.root, className)}>
             <Paper sx={{height: '100%'}}>
@@ -35,16 +42,17 @@ export default function Card({ children, className, plan, planID, price, interva
                         {popular && <div className={classes.popular}>Most Popular</div>}
                         <div className={classes.planName}>{plan.toUpperCase()}</div>
                         <div className={classes.pricing}>
-                            <span className={classes.price}>${normalizedPrice}</span>{!isFreePlan && <span className={classes.interval}>/month</span>}
+                            <div>
+                                <span className={classes.price}>${normalizedPrice}</span>{!isFreePlan && <span className={classes.interval}>/month</span>}
+                            </div>
+                            <div className={clsx(classes.perSeries, isFreePlan ? classes.invisible : null)}>Per Series</div>
                         </div>
                         <div className={classes.features}>
-                            <FeatureRow>{`${trackedStores} Tracked Stores`}</FeatureRow>
-                            <FeatureRow>{`Top ${topProducts} Global Products`}</FeatureRow>
-                            <FeatureRow>{`Top ${topStores} Global Stores`}</FeatureRow>
-                            <FeatureRow>Real Time Sales</FeatureRow>
-                            <FeatureRow strikethrough={isFreePlan}>Product Filters</FeatureRow>
+                            <FeatureRow>{postsPerWeekText(frequency)}</FeatureRow>
+                            <FeatureRow>Auto-posts to channel</FeatureRow>
+                            <FeatureRow>Edit & preview videos</FeatureRow>
+                            <FeatureRow strikethrough={isFreePlan}>Priority video rendering</FeatureRow>
                             <FeatureRow strikethrough={isFreePlan}>Newest features</FeatureRow>
-                            {/* {!isFreePlan && <FeatureRow>Billed {interval}</FeatureRow>} */}
                         </div>
                         {buttonText && <Button className={classes.btn} loading={loading} disabled={isDisabled} onClick={purchaseClicked}>{buttonText}</Button>}
                         {extraButton}

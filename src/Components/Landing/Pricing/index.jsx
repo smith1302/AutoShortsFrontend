@@ -27,7 +27,7 @@ export default function Pricing({ children, plans }) {
         <div className={classes.root} id="pricing">
             <ContentContainer className={classes.content} fade={true}>
                 <SectionHeader title="PRICING" subtitle="PAY FOR WHAT YOU NEED" />
-                <BillingIntervalSwitch onChange={handleIntervalChange} className={classes.switch} interval={selectedInterval} />
+                {/* <BillingIntervalSwitch onChange={handleIntervalChange} className={classes.switch} interval={selectedInterval} /> */}
                 <div className={classes.cards}>
                     {relevantPlans && relevantPlans.map(p => {
                         // Show the free plan and plans that match our selected interval
@@ -40,9 +40,7 @@ export default function Pricing({ children, plans }) {
                                 plan={p.name}
                                 planID={p.id}
                                 price={p.price}
-                                trackedStores={p.trackedStores}
-                                topProducts={p.topProducts}
-                                topStores={p.topStores}
+                                frequency={p.frequency}
                                 interval={p.billingInterval}
                                 onClick={clickHandler}
                                 buttonText="Try Now!"

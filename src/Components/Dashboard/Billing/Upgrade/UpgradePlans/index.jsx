@@ -113,24 +113,22 @@ export default function Upgrade({ currentPlan, plans, onCancel }) {
 				plan={p.name}
 				planID={p.id}
 				price={p.price}
-				trackedStores={p.trackedStores}
-				topProducts={p.topProducts}
-				topStores={p.topStores}
+				frequency={p.frequency}
 				interval={p.billingInterval}
 				onClick={handleSelectClick}
 				loading={p.id == loadingPlanID}
 				disabled={disableBtn}
 				buttonText={buttonText}
 				tooltipText={tooltipText}
-				extraButton={
-					<CustomPayPalButton 
-						logInitiateCheckout={logInitiateCheckout} 
-						setLoadingPlanID={setLoadingPlanID} 
-						setError={setError} 
-						user={user}
-						disabled={disableBtn}
-						plan={p} />
-				}
+				// extraButton={
+				// 	<CustomPayPalButton 
+				// 		logInitiateCheckout={logInitiateCheckout} 
+				// 		setLoadingPlanID={setLoadingPlanID} 
+				// 		setError={setError} 
+				// 		user={user}
+				// 		disabled={disableBtn}
+				// 		plan={p} />
+				// }
 			/>
 		)
 	}

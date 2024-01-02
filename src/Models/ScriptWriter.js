@@ -47,7 +47,9 @@ export default class ScriptWriter {
                         
                         - Title: A title suitable for a video based off your content. It should be 10 words or less.
                         
-                        - Caption: A social media caption based off your content. You should include 3 to 5 relevant hashtags.`
+                        - Caption: A social media caption based off your content. You should include 3 to 5 relevant hashtags.
+                        
+                        ONLY OUTPUT THE JSON. DO NOT INCLUDE ANYTHING ELSE IN YOUR RESPONSE.`
                     },
                     {
                         role: 'user',

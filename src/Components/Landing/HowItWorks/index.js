@@ -9,8 +9,7 @@ export default function Explainer({ children }) {
     return (
         <div className={classes.root}>
             <ContentContainer className={classes.content} fade={true}>
-                {/* <SectionHeader title={"Features You'll Love"} subtitle="Helping you make smart business decisions." /> */}
-                <SectionHeader title={"Track Your Competitors"} subtitle="Stop The Guesswork" />
+                <SectionHeader title={"Manage The Entire Flow"} subtitle="So You Can Focus On Growing" />
 
                 <div className={clsx(classes.grid, classes.topspacing)}>
                     <div className={classes.left}>
@@ -20,8 +19,8 @@ export default function Explainer({ children }) {
                     </div>
                     <div className={classes.right}>
                         <div className={classes.pill}>Feature 1</div>
-                        <h3 className={classes.contentTitle}>Global Top Products</h3>
-                        <p className={classes}>Easily discover the most sold products of the day - across thousands of Shopify stores. Get unlimited ideas using these invaluable insights to find products that are dominating the market.</p>
+                        <h3 className={classes.contentTitle}>Create Your Series</h3>
+                        <p className={classes}>Simply choose a topic that your Faceless video series will be about. Our AI will begin creating your first video to preview and edit.</p>
                     </div>
                 </div>
 
@@ -35,8 +34,8 @@ export default function Explainer({ children }) {
                     </div>
                     <div className={classes.right}>
                         <div className={classes.pill}>Feature 2</div>
-                        <h3 className={classes.contentTitle}>Competitor Analysis</h3>
-                        <p className={classes}>Ever wonder if that <b><i>TikTok or Facebook ad is actually profitable</i></b>? Just enter the product link and track a competitor's real-time sales, revenue, and order history for each of their products. No more guessing!</p>
+                        <h3 className={classes.contentTitle}>Schedule Videos</h3>
+                        <p className={classes}>You can preview and edit the contents of your video at anytime before they are scheduled to publish.</p>
                     </div>
                 </div>
 
@@ -50,8 +49,8 @@ export default function Explainer({ children }) {
                     </div>
                     <div className={classes.right}>
                         <div className={classes.pill}>Feature 3</div>
-                        <h3 className={classes.contentTitle}>Global Top Stores</h3>
-                        <p className={classes}>Need a place to start? See which stores are actually making sales by viewing our global leaderboard. Then, analyze the stores to see which products are making the bulk of their sales.</p>
+                        <h3 className={classes.contentTitle}>Manage Your Series</h3>
+                        <p className={classes}>Easily manage, delete, and preview all of your Faceless Video series in one place.</p>
                     </div>
                 </div>
 

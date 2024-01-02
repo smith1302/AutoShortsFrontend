@@ -26,7 +26,7 @@ const Series = () => {
     useEffect(() => {
         (async () => {
             setLoading(true);
-            const series = await SeriesService.getAll();
+            const series = [];//await SeriesService.getAll();
             setSeries(series);
             setLoading(false);
         })();
@@ -40,14 +40,16 @@ const Series = () => {
         window.location.href = paths.createSeries;
     };
 
+    const hasSeries = series && series.length > 0;
+
     return (
         <Layout>
             <div className={classes.root}>
                 <SlantBGBox />
                 <ContentContainer className={classes.contentContainer}>
-                    <PageHeading title={`Your Series`} light={true} right={<Button small={true} onClick={handleCreateSeries}>Create +</Button>} />
+                    <PageHeading title={`Your Series`} light={true} right={hasSeries ? <Button small={true} onClick={handleCreateSeries}>Create +</Button> : null} />
                     <Paper className={classes.paper}>
-                        {(series && series.length > 0) ? (
+                        {hasSeries ? (
                             <SeriesList series={series} handleSelectSeries={handleSelectSeries} />
                         ) : (
                             <EmptyState loading={loading} />

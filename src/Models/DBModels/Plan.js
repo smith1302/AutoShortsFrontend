@@ -4,15 +4,13 @@ import { PlanBillingInterval } from '~/src/enums';
 
 export default class Plan extends DatabaseModel {
 
-    constructor({ id, name, billingInterval, price, trackedStores, topProducts, topStores, available, paypalPlanID, testPayPalPlanID, webEnabled, created }) {
+    constructor({ id, name, billingInterval, price, frequency, available, paypalPlanID, testPayPalPlanID, webEnabled, created }) {
         super();
         this.id = id;
         this.name = name;
         this.billingInterval = billingInterval;
         this.price = price;
-        this.trackedStores = trackedStores;
-        this.topProducts = topProducts;
-        this.topStores = topStores;
+        this.frequency = frequency;
         this.available = available;
         this.webEnabled = webEnabled;
         this._paypalPlanID = paypalPlanID;
@@ -55,7 +53,7 @@ export default class Plan extends DatabaseModel {
     }
 
     description() {
-        let description = `EcomWave ${this.name} Plan`;
+        let description = `${globals.appName} ${this.name} Plan`;
         return description;
     }
 }

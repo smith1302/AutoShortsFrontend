@@ -16,16 +16,10 @@ export default function Hero({ children }) {
             <div className={classes.grid}>
                 <div className={classes.left}>
                     <h1 className={classes.title}>
-                        {/* Unleash eCommerce Potential */}
-                        {/* Shopify Sales Uncovered */}
-                        {/* Real-Time Sales Tracking */}
-                        Discover Products That Sell.
+                        Faceless Video Creation
                     </h1>
                     <div className={classes.subtitle}>
-                        {/* We track real-time sales across thousands of stores to show you which products actually sell. */}
-                        {/* With {globals.appNameFull}, track live sales data from thousands of stores and discover viral & winning products. */}
-                        Track live sales data from thousands of stores to discover winning products, research competition, and validate product ideas.
-                        {/* Track the sales of any Shopify store to discover winning products, research competition, and validate product ideas. */}
+                        Our powerful AI video creation platform allows you to create, edit, and schedule faceless videos in seconds.
                     </div>
                     <div className={classes.btnContainer}>
                         <HeroButton user={user} />

@@ -41,7 +41,7 @@ export default class FBPixel {
 
             // https://developers.facebook.com/docs/marketing-api/conversions-api/get-started
             const eventsData = [serverEvent];
-            const eventRequest = (new EventRequest('EAAG5RFStn6EBAFRFFjWMzvZBjQybzKbqm1dgZBzKmRbWtTHlNwU975kr2H2O3IZCCXS0LKZC5f0wJTnDcCYt0Vh5ERZAZA5mE0mrcnuid0okM0aZBhxkldLP5LayWK8Vxnd8WKovngM6cvtfHkjtvA9oxtsO8uUTzA8YDukswqux8OkbIcfAdqAQpM1GL91250ZD', '1580426829148513'))
+            const eventRequest = (new EventRequest('EAAKm12RIkOIBOZBvciLpH72krbkTBpIF6bn41yHfxw9LRHtyCE74imJZB6L72TD9aurSZBUg0IWIXqlvvwV8ZCsZADZBxgPc1hTQ2G0i2qWvEfK99ao4rK1FaGXsawb06pSqviSb0A1MrbfdsZCqtZCDa3u1ADLHgVxDLBxHtEWXJKpRWgearwVyaSJXhHFg5J7CLQZDZD', '921770102173440'))
                             .setEvents(eventsData);
 
             eventRequest.execute();

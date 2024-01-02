@@ -1,16 +1,16 @@
 const hostname = 'autoshorts.ai';
-const appName = 'AutoShorts';
+const appName = 'AutoShorts.ai';
 
 export default {
     appName: appName,
-    appNameFull: `${appName}.ai`,
+    appNameFull: `${appName}`,
     hostname: hostname,
-    contactEmail: 'REPLACE@gmail.com',
+    contactEmail: 'autoshortsai@gmail.com',
     displayURL: `${hostname}`,
     fullURL: `https://${hostname}`,
     meta: {
-        desc: `Real-time tracking of winning Shopify products. Uncover untapped niches, drive your strategy, gain your competitive edge in eCommerce.`,
-        title: `${appName} – The Best Shopify Sales Tracker`,
+        desc: `Discover AutoShorts.ai – the revolutionary app the completely automates Faceless Videos from start to finish. Just provide a topic and our AI will create and post fresh videos to your TikTok daily.`,
+        title: `AutoShorts.ai | Automated Faceless Video Creation for TikTok`,
     },
     backendAPI: `https://backend.ecomwave.io/api`,
 }

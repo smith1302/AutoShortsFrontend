@@ -10,7 +10,13 @@ import OnboardService from "~/src/Services/OnboardService";
 import Videos from "./Videos";
 import Announcements from "./Announcements";
 
+import SeriesViewAll from "~/src/Components/Dashboard/Series";
+
 import Paper from '@mui/material/Paper';
+
+export default withAuthProtection(SeriesViewAll);
+
+/*
 
 function DashboardHome({ children }) {
     const {user, subscriptionSummary} = useContext(UserContext);
@@ -54,3 +60,4 @@ function DashboardHome({ children }) {
 }
 
 export default withAuthProtection(DashboardHome);
+*/

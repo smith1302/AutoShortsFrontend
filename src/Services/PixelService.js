@@ -26,7 +26,7 @@ async function logPixel(event, data={}, eventID=null) {
             if (!eventID) {
                 eventID = `${Date.now()}${Math.floor(Math.random() * Date.now())}`;
             }
-            ReactPixel.init('REPLACEME', {}, { debug: true, autoConfig: true });
+            ReactPixel.init('921770102173440', {}, { debug: true, autoConfig: true });
             ReactPixel.track(event, data, {eventID: eventID});
 
             FetchWrapper.post(`/api/fbpixel`, { event, eventID, email, userID });

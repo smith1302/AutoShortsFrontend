@@ -102,7 +102,7 @@ export default class ContentType {
             }),
 
             new ContentType({
-                id: this.ID.LIFE_PRO_TIP, 
+                id: this.ID.ELI5, 
                 name: 'ELI5', 
                 prompt: 'Give a random ELI5 explanation of a random topic. Do not state the topic, simply begin with the explanation. The title can include the "ELI5: question".',
                 sample: `Imagine you have a magic box that can send messages instantly to another magic box across the world. But instead of typing out the entire message, you can break it down into tiny pieces of information called packets. Each packet contains a small part of the message and has an address label on it. These packets then travel through a network of wires and routers to reach their destination. Once they arrive, the receiving magic box puts all the packets together in the correct order to reconstruct the original message. This is how information travels on the internet!`

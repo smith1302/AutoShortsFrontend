@@ -32,7 +32,7 @@ export default function Layout({ children }) {
 
 
     const links = [
-        {text: 'Home', icon: <HomeIcon />, path: paths.dashboard},
+        // {text: 'Home', icon: <HomeIcon />, path: paths.dashboard},
         {text: 'Series', icon: <SlowMotionVideoIcon />, defaultOpen: true, children: [
             {text: 'View', icon: <InsightsIcon />, path: paths.viewAllSeries},
             {text: 'Create', icon: <AddCircleOutlineIcon />, path: paths.createSeries},

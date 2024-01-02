@@ -32,8 +32,8 @@ export default function StatDisplay({ className, stats }) {
                     answer='The way the EcomWave affiliate tracking works is if someone clicks on your link, a 30 day cookie is attached in their browser. This tracks them so when they register an account they are locked-in to be attributed to you forever.'
                 />
                 <QABlock 
-                    question="Can I run ads to promote EcomWave?"
-                    answer='In general, you can. However, we do not allow any Google Search ads. You can run ads on other platforms such as Facebook, Instagram, TikTok, Reddit, YouTube, etc.'
+                    question={`Can I run ads to promote ${globals.appName}?`}
+                    answer={<>In general, you can. However, <u>we do not allow promotion through Google Search ads.</u> You can run ads on other platforms such as Facebook, Instagram, TikTok, Reddit, YouTube, etc.</>}
                 />
             </div>
         </section>

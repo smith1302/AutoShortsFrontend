@@ -17,7 +17,8 @@ export default function Footer({ children }) {
                         <img src='/images/LogoWhite.png' alt="Logo" />{globals.appNameFull}
                     </div>
                     <div className={classes.body}>
-                    With {globals.appName}, you don't have to guess what's selling — you see it in real-time! Unearth top-performing products, reveal untapped niches, and unlock data-driven insights to propel your business strategy.
+                    {globals.appName} is a groundbreaking platform designed to simplify and enhance your TikTok content strategy.
+                    {/* {globals.appName} is a groundbreaking platform designed to simplify and enhance your TikTok content strategy. Our innovative technology turns your niche topics, like "Scary Stories", into captivating, faceless videos. Whether you're hands-on or prefer automation, AutoShorts.ai is your partner in content creation. */}
                     <br /><br />
                     <span style={{opacity: 0.8}}>{globals.appName} © {(new Date().getUTCFullYear())}</span>
                     </div>
