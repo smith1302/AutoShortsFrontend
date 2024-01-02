@@ -110,7 +110,7 @@ const PrivacySelector = ({ privacy, setPrivacy, commercialContent, brandedConten
             </Select>
             {!hasPublic && (
                 <Typography variant="caption" display="block" gutterBottom sx={{ marginTop: 1 }} className={classes.faded}>
-                    If "Public" is not an option, you may need to change your privacy settings in the TikTok app.
+                    If "Public" is not an option, change your privacy settings in the TikTok app.
                 </Typography>
             )}
         </Stack>
