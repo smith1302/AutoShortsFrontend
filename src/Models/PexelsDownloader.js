@@ -20,14 +20,18 @@ export default class PexelsDownloader {
         try {
             const videos = await this.searchVideos(keyword);
             const maxVideos = Math.min(3, videos.length);
-            for (let i = 0; i < maxVideos; i++) {
+            let i = 0;
+            while (i < maxVideos) {
                 const video = videos[i];
+                if (video.duration < 10) continue; // Skip videos that are too short
+
                 console.log(`Selected video: `, video.url);
                 const description = await this.describeVideo(video);
                 console.log(`Description: ${description}`);
                 const filename = await this.downloadVideo(keyword, video);
                 await this.saveToDatabase(filename, description);
                 console.log(`------------------------`);
+                i++;
             }
         } catch (error) {
             console.error('Error in searchAndDownload:', error);
