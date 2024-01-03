@@ -75,11 +75,12 @@ export default class TikTokPostHandler {
 
     static async uploadVideo(video) {
         let publishID = null;
+        let postInfo = null;
         try {
             const tokenData = JSON.parse(video.other.tokenData);
             const tiktok = new TikTok();
             const creatorInfo = await tiktok.fetchCreatorInfo(tokenData);
-            let postInfo = {
+            postInfo = {
                 title: video.caption,
                 privacy_level: video.other.privacy,
                 disable_duet: Boolean(video.other.duetDisabled),
@@ -103,6 +104,8 @@ export default class TikTokPostHandler {
             }
         } catch (error) {
             console.log(`Failed to upload video. VideoID: ${video.id}`);
+            console.log(`Post Info:`);
+            console.log(postInfo);
             console.log(error?.response?.data?.error || error.message);
             console.log(`------------------`);
         }
