@@ -62,6 +62,11 @@ const Series = () => {
 };
 
 const EmptyState = ({loading}) => {
+
+    const handleCreateSeries = () => {
+        window.location.href = paths.createSeries;
+    }
+
     return (
         <div className={classes.emptyState}>
             {loading ? (
@@ -73,7 +78,7 @@ const EmptyState = ({loading}) => {
                     <div className={classes.emptyStateText}>
                     You haven't started a Faceless Video series yet.
                     </div>
-                    <Button className={classes.emptyStateButton} variant="contained" color="primary">
+                    <Button className={classes.emptyStateButton} variant="contained" color="primary" onClick={handleCreateSeries} >
                         Create your series
                     </Button>
                 </>
