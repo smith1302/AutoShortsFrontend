@@ -22,7 +22,7 @@ const options = [
     "The cost is too high",
     "I found a better alternative",
     "I was just trying it out",
-    "I no longer am in the business",
+    "I no longer make videos",
     "None",
 ];
 

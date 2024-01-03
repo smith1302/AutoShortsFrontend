@@ -6,7 +6,7 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SEND_GRID_KEY);
 
 export default class SendGrid {
-    constructor({to, subject, text, html = null, from = `support@ecomwave.io`, senderName = 'EcomWave', replyTo = `ecomwaveio@gmail.com`, templateID = null}) {
+    constructor({to, subject, text, html = null, from = `support@autoshorts.ai`, senderName = 'AutoShorts', replyTo = `autoshortsai@gmail.com`, templateID = null}) {
         this.to = to;
         this.subject = subject;
         this.text = text;
@@ -18,42 +18,47 @@ export default class SendGrid {
     }
 
     async send() {
-        if (!process.env.SEND_GRID_KEY || !this.to) {
-            return;
-        }
+        try {
+            if (!process.env.SEND_GRID_KEY || !this.to) {
+                return;
+            }
 
-        if (this.templateID) {
+            if (this.templateID) {
+                const config = { 
+                    from: {
+                        email: this.from, 
+                        name: this.senderName
+                    },
+                    to: this.to, 
+                    replyTo: this.replyTo,
+                    templateId: this.templateID,
+                    subject: this.subject,
+                    asm: {
+                        group_id: 26584, /* This is for unsubscription url (https://mc.sendgrid.com/unsubscribe-groups) */
+                        groups_to_display: [26584]
+                    }
+                };
+                return sgMail.send(config);
+            }
+
             const config = { 
                 from: {
                     email: this.from, 
                     name: this.senderName
-                },
+                }, 
                 to: this.to, 
-                replyTo: this.replyTo,
-                templateId: this.templateID,
-                subject: this.subject,
-                asm: {
-                    group_id: 115858, /* This is for unsubscription url*/
-                    groups_to_display: [115858]
-                }
+                subject: this.subject, 
+                text: this.text,
+                replyTo: this.replyTo
             };
+            if (this.html) {
+                config.html = this.html;
+            }
             return sgMail.send(config);
+        } catch (error) {
+            console.error("Error in sendGrid send():", error);
         }
-
-        const config = { 
-            from: {
-                email: this.from, 
-                name: this.senderName
-            }, 
-            to: this.to, 
-            subject: this.subject, 
-            text: this.text,
-            replyTo: this.replyTo
-        };
-        if (this.html) {
-            config.html = this.html;
-        }
-        return sgMail.send(config);
+        return null;
     }
 
     /* ======== TEMPLATES =========== */
@@ -114,7 +119,7 @@ export default class SendGrid {
         return new SendGrid({
             to: email, 
             subject: `Thanks for beta testing ${globals.appName}`,
-            templateID: 'd-b0bebc06fa3e491b84fc37f2f753d1ee'
+            templateID: 'd-57c8b7227bf4499db90ceb941e59e2c9 '
         });
     }
 

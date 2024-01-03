@@ -43,12 +43,13 @@ async function handleGET(req, res) {
     const series = await Series.findOne({where: {userID: userID, id: seriesID}});
     
     const videos = await Video.find({where: {userID: userID, seriesID: seriesID}, orderBy: {fieldName: 'created', direction: 'DESC'}});
-
+    
     let upcomingVideo = null;
     let videoHistory = [];
     if (videos.length > 0) {
         upcomingVideo = videos[0];
-        videoHistory = videos.map(video => {
+        const otherVideos = videos.slice(1);
+        videoHistory = otherVideos.map(video => {
             return {
                 id: video.id,
                 title: video.title,

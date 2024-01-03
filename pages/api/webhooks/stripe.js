@@ -9,6 +9,7 @@ import User from '~/src/Models/DBModels/User';
 import SendGrid from '~/src/Models/SendGrid';
 import BillingIntervalHelper from '~/src/Models/BillingIntervalHelper';
 import ApiHandler from '~/src/Services/ApiHandler';
+import VideoScheduler from '~/src/Models/VideoScheduler';
 import StripeService from 'src/Services/StripeService';
 
 // Required for every webhook since the request needs to include the raw body
@@ -172,6 +173,11 @@ async function _handleInvoicePaid(event) {
             console.log(`> Canceling old subscription: ${oldSubscription.id}`);
             await oldSubscription.cancel({atStripePeriodEnd: false});
         }
+
+        // If plan's changed, we also need to update any existing video's posting schedule.
+        const videoScheduler = new VideoScheduler();
+        await videoScheduler.updateScheduledVideosForUser({userID: userID});
+
         // Notify us
         // if (amount > 30) {
             await SendGrid.devNotification({name: `Purchase | ${amount}`, accountEmail: userID}).send();

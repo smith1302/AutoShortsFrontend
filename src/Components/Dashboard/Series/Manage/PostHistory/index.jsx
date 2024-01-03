@@ -25,10 +25,7 @@ const PostHistory = ({videoHistory}) => {
                 <List className={classes.selector}>
                     {videoHistory.map((item, index) => (
                         <Fragment key={item.id}>
-                            <ListItem
-                                button
-                                className={clsx(classes.listItem)}
-                            >
+                            <ListItem className={clsx(classes.listItem)}>
                                 <ListItemText className={classes.listItemText} primary={item.title} secondary={postedOn(item.postedDate)} />
                             </ListItem>
                             {index < videoHistory.length - 1 && <Divider />}

@@ -16,6 +16,34 @@ export default class VideoScheduler {
         }
     }
 
+    /*
+        When a user changes their plan, the posting schedule for their videos needs to be updated.
+    */
+    async updateScheduledVideosForUser({userID}) {
+        try {
+            const plan = await User.getPlan(userID);
+            // Get all videos that are scheduled
+            const videos = await Video.query(`
+                SELECT * FROM ${Video.tableName()}
+                WHERE userID = ?
+                    AND ${Video.tableName()}.videoUrl IS NOT NULL
+                    AND ${Video.tableName()}.scheduledDate IS NOT NULL
+                    AND ${Video.tableName()}.publishID IS NULL
+                    AND ${Video.tableName()}.publishStatus IS NULL
+                    AND ${Video.tableName()}.postID IS NULL
+                ORDER BY ${Video.tableName()}.scheduledDate DESC
+            `, [userID]);
+
+            // Update the scheduled date for each video
+            for (const video of videos) {
+                const nextPostDate = toMysqlDateFormat(this.getNextPostDate({frequency: plan.frequency}));
+                await Video.update({scheduledDate: nextPostDate}, video.id);
+            }
+        } catch (error) {
+            console.error("Error in updateScheduledVideosForUser:", error);
+        }
+    }
+
     async scheduleNextVideoInSeries({seriesID}) {
         const series = await Series.findOne({where: {id: seriesID}});
         const plan = await User.getPlan(series.userID);

@@ -13,7 +13,8 @@ var pool = mysql.createPool({
     user: MYSQL_USER,
     password: MYSQL_PASS,
     database: MYSQL_DB,
-    charset: 'utf8mb4_unicode_ci'
+    charset: 'utf8mb4_unicode_ci',
+    timezone: 'utc'
 });
 
 // This is purely to check the connection and log if there's an error.

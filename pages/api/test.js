@@ -11,6 +11,7 @@ export default ApiHandler(false, async (req, res) => {
     }
 
     // const videoScheduler = new VideoScheduler();
+    // await videoScheduler.updateScheduledVideosForUser({userID: 1});
     // await videoScheduler.batchScheduleVideos({limit: 1});
 
     // const downloader = new PexelsDownloader();

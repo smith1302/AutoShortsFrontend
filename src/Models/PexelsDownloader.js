@@ -23,8 +23,6 @@ export default class PexelsDownloader {
             let i = 0;
             while (i < maxVideos) {
                 const video = videos[i];
-                if (video.duration < 10) continue; // Skip videos that are too short
-
                 console.log(`Selected video: `, video.url);
                 const description = await this.describeVideo(video);
                 console.log(`Description: ${description}`);
@@ -40,7 +38,16 @@ export default class PexelsDownloader {
 
     async searchVideos(keyword) {
         const response = await this.client.videos.search({ query: keyword, orientation: 'portrait', per_page: 10 });
-        return response.videos;
+        const videos = response.videos.filter(video => {
+            const meetsMinDuration = video.duration > 10;
+            const aspectRatio = (video.width / video.height);
+            const verticalVideo = 9 / 16;
+            // Must be within 10% of vertical video aspect ratio
+            const meetsAspectRatio = aspectRatio >= (verticalVideo * 0.9) && aspectRatio <= (verticalVideo * 1.1);
+            return meetsMinDuration && meetsAspectRatio;
+        });
+
+        return videos;
     }
 
     async describeVideo(video) {
