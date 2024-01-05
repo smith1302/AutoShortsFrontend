@@ -43,7 +43,11 @@ const TikTokPostSettings = ({ privacy, setPrivacy, allowComment, setAllowComment
         }
 
         if (commercialContent && brandedContent && privacy === PrivacyOptions.PRIVATE) {
-            setPrivacy(PrivacyOptions.PUBLIC);
+            if (creatorInfo.privacy_level_options.includes(PrivacyOptions.PUBLIC)) {
+                setPrivacy(PrivacyOptions.PUBLIC);
+            } else {
+                setPrivacy(PrivacyOptions.FRIENDS);
+            }
         }
     }, [commercialContent, yourBrand, brandedContent, privacy]);
 
@@ -70,7 +74,7 @@ const TikTokPostSettings = ({ privacy, setPrivacy, allowComment, setAllowComment
                 setAllowStitch={setAllowStitch}
             />
 
-            {false && <DiscloseVideoContent
+            {<DiscloseVideoContent
                 commercialContent={commercialContent}
                 setCommercialContent={setCommercialContent}
                 yourBrand={yourBrand}
@@ -177,6 +181,25 @@ const DiscloseVideoContent = ({ commercialContent, setCommercialContent, yourBra
         return null;
     };
 
+    const partnershipDisclaimer = () => {
+        if (commercialContent) {
+            if (brandedContent) {
+                return (
+                    <div className={classes.disclaimer}>
+                        <InfoIcon /> Your video will be labeled "Promotional content". This cannot be changed once your video is posted.
+                    </div>
+                );
+            } else if (yourBrand) {
+                return (
+                    <div className={classes.disclaimer}>
+                        <InfoIcon /> Your video will be labeled "Paid partnership". This cannot be changed once your video is posted.
+                    </div>
+                );
+            }
+        }
+        return null;
+    }
+
     return (
         <>
             <Stack direction="row" alignItems="center">
@@ -185,9 +208,7 @@ const DiscloseVideoContent = ({ commercialContent, setCommercialContent, yourBra
             </Stack>
             {commercialContent && (
                 <>
-                    <div className={classes.disclaimer}>
-                        <InfoIcon /> Your video will be labeled “Promotional content”. This cannot be changed once your video is posted.
-                    </div>
+                    {partnershipDisclaimer()}
                     <Typography variant="caption" display="block" gutterBottom className={classes.faded}>
                         Turn on to disclose that this video promotes goods or services in exchange for something of value. Your video could promote yourself, a third party, or both.
                     </Typography>

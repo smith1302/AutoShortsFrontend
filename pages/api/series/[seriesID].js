@@ -42,7 +42,7 @@ async function handleGET(req, res) {
     
     const series = await Series.findOne({where: {userID: userID, id: seriesID}});
     
-    const videos = await Video.find({where: {userID: userID, seriesID: seriesID}, orderBy: {fieldName: 'created', direction: 'DESC'}});
+    const videos = await Video.find({where: {userID: userID, seriesID: seriesID}, orderBy: {fieldName: 'created', direction: 'DESC'}, limit: 20});
     
     let upcomingVideo = null;
     let videoHistory = [];

@@ -42,7 +42,7 @@ export default class ContentType {
             new ContentType({
                 id: this.ID.RANDOM_AI_STORY, 
                 name: 'Random AI Story', 
-                prompt: 'Write an interesting short story in the style of r/shortstories.',
+                prompt: 'Write a captivating and complete short story in the style of r/shortstories.',
                 sample: `Once there was a small village hidden in a lush valley, surrounded by towering mountains. In this village lived a young boy named Milo, who had a unique gift – he could talk to animals. Every day, Milo would venture into the forest, chatting with birds, laughing with rabbits, and learning secrets from the wise old owl.
 
                 One day, a fierce dragon appeared, terrifying the villagers. But Milo, with his courage and unique ability, approached the dragon. He discovered that the dragon was not fierce but lonely. Milo promised to visit the dragon every day.

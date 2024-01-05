@@ -26,5 +26,7 @@ export default {
     facebook: 'https://www.facebook.com/ecomwave.io',
     instagram: 'https://www.instagram.com/ecomwave.io',
     youtube: 'https://www.youtube.com/@EcomWaveio',
-    renderedVideos: 'https://video-cdn.autoshorts.ai/shorts'
+    renderedVideos: 'https://video-cdn.autoshorts.ai/shorts',
+    backgroundVideos: 'https://video-cdn.autoshorts.ai/backgrounds',
+    temp: `public/tmp`,
 }

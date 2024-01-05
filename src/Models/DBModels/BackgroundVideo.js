@@ -1,12 +1,15 @@
 import DatabaseModel from '~/src/Models/DBModels/DatabaseModel';
 import Embeddings from '~/src/Models/Embeddings';
 import cache from '~/src/Utils/nodeCache';
+import paths from '~/src/paths';
+import VideoDescriber from '~/src/Models/VideoDescriber';
 
 export default class BackgroundVideo extends DatabaseModel {
 
     constructor({ filename, description, embedding, created }) {
         super();
         this.filename = filename;
+        this.url = `${paths.backgroundVideos}/${filename}`;
         this.description = description;
         this.embedding = embedding;
         this.created = created;
@@ -35,6 +38,27 @@ export default class BackgroundVideo extends DatabaseModel {
         `;
         const queryValues = [JSON.stringify(embedding), this.filename];
         await BackgroundVideo.query(query, queryValues);
+    }
+
+    static async makeNewDescriptions() {
+        const describer = new VideoDescriber();
+        const embeddingHandler = new Embeddings();
+        const videos = await BackgroundVideo.getAll();
+
+        for (const video of videos) {
+            continue;
+
+            const description = await describer.describeVideo(video.url);
+            const embedding = await embeddingHandler.getEmbedding(description);
+
+            console.log(`======= ${video.filename} (${video.url}) =======`);
+            console.log(`Description: ${description}`);
+            await BackgroundVideo.query(`
+                UPDATE ${BackgroundVideo.tableName()}
+                SET embedding = ?, description = ?
+                WHERE filename = ?
+            `, [JSON.stringify(embedding), description, video.filename]);
+        }
     }
 
     static async create({ filename, description, embedding }) {
