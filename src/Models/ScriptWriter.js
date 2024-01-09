@@ -30,9 +30,10 @@ export default class ScriptWriter {
     async writeScript({basePrompt}) {
         let content;
         try {
+            const wordCount = "100 to 120";
             const prompt = `${basePrompt.substring(0, 2000)}
             
-            It must be 80 to 100 words`;
+            It must be ${wordCount} words`;
 
             const response = await this.openai.chat.completions.create({
                 model: 'gpt-3.5-turbo-1106',
@@ -43,7 +44,7 @@ export default class ScriptWriter {
 
                         Your output must be in JSON format that includes the following keys: "content", "title", "caption".
                         
-                        - Content: The text that you generate based on the user's message. It must be 100 to 120 words. Never include hashtags in your content.
+                        - Content: The text that you generate based on the user's message. It must be ${wordCount} words. Never include hashtags in your content.
                         
                         - Title: A title suitable for a video based off your content. It should be 10 words or less.
                         
